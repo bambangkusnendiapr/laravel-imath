@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\SoalLatihan;
+use Illuminate\Support\Facades\Auth;
 
 class JawabanLatihanController extends Controller
 {
@@ -39,40 +41,17 @@ class JawabanLatihanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-        $request->validate([
-            'user_id'=>'required',
-            'latihan_id'=>'required',
-            'soal_id'=>'required',
-            'jawaban'=>'required',
-            
-        ],[
-             'user_id.*'=>'User ID Harus di Isi',
-             'latihan_id.*'=>'Latihan ID Aktif Harus di Isi',
-             'soal_id.*'=>'Soal Harus di Isi',
-             'jawaban.*'=>'Jawaban Harus di Isi',
-        ]);
- 
         DB::beginTransaction();
+
         try{
-         
-         $jawaban_soal = $request->jawaban;
-            foreach ($jawaban_soal as $key => $value){
 
-                 $soal[] = [
-                    "latihan_id"=> $request->latihan_id[$key],
-                    "user_id" => $request->user_id[$key],
-                    "jawaban" => $request->jawaban[$key],
-                    "soal_id" => $request->soal_id[$key],
-                    // "jawaban_image" => $name_jawabannn,
-                    "created_at" =>Carbon::now(),
-                ];
-        
-        }
-         
-
-         Jawabanlatihan::insert($soal);
+            for($i = 0; $i < count($request->soal_id); $i++) {
+                Jawabanlatihan::create([
+                    'user_id' => Auth::user()->id,
+                    'soal_latihan_id' => $request->soal_id[$i],
+                    'jawaban' => $request->jawaban[$i],
+                ]);
+            }
  
          DB::commit();
          return Redirect::route('summary.index')->with('success','Latihan Berhasil di Kerjakan');

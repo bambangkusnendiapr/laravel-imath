@@ -18,6 +18,7 @@ use App\Http\Controllers\Ongoing\OngoingKuisController;
 use App\Http\Controllers\Ongoing\OngoingLatihanController;
 use App\Http\Controllers\StudiKasus\StudiKasusController;
 use App\Http\Controllers\User\DashboardUserController;
+use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,10 +56,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
 
 
 // MAHASISWA ROUTE
-Route::group(['prefix' => 'user', 'middleware' => ['role:user|admin']], function() {
+Route::group(['prefix' => 'mahasiswa', 'middleware' => ['role:mahasiswa|admin']], function() {
+    Route::get('/app', [AppController::class, 'index'])->name('app.index');
+
     Route::resource('/summary', DashboardUserController::class);
     Route::resource('/materi-ongoing', MateriOngoingController::class);
     Route::resource('/studi-kasus', StudiKasusController::class);
+    Route::post('/jawabanPengetahuan', [StudiKasusController::class, 'jawabanPengetahuan'])->name('jawaban.pengetahuan');
 
     Route::resource('/latihan-ongoing', OngoingLatihanController::class);
     Route::resource('/kuis-ongoing', OngoingKuisController::class);

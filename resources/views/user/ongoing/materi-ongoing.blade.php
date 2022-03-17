@@ -19,7 +19,7 @@
               <label class="text-white">
                 {{$user->name}}
               </label>
-              <small class="text-white">{{$user->mahasiswa->nim}}</small>
+              <small class="text-white">NIM:123456</small>
             </div>
             <div class="col-4 text-end">
               <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,6 +33,21 @@
         <div class="card-body imath-body-color" style="min-height: 650px;">
 
           <div class="row">
+            <div class="col-md-8 col-lg-8 col-sm-12 mb-2">
+              @if (session()->has('success'))    
+                  <div class="alert alert-success alert-dismissible show fade">
+                  <div class="alert-body">
+                      <button class="close" data-dismiss="alert">
+                      <span>×</span>
+                      </button>
+                      {{ session('success')}}
+                  </div>
+                  </div>
+              @endif
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-md-12">
 
               <div class="text-center mb-4" style="color: red">
@@ -43,7 +58,7 @@
                     <div class="card-body">
                     <div class="row text-white text-center">
                         <div class="col-12 text-center text-nowrap h-100">
-                        Studi Kasus
+                        Pengetahuan
                         </div>
                     </div>
                     </div>
@@ -62,18 +77,6 @@
                 </div>
               </a>
 
-              <a href="{{ route('kuis-ongoing.show',$materi->kuis->id)}}" style="text-decoration: none;">
-                <div class="card imath-btn-color w-100 my-2">
-                    <div class="card-body">
-                    <div class="row text-white text-center">
-                        <div class="col-12 text-center text-nowrap h-100">
-                        Quiz
-                        </div>
-                    </div>
-                    </div>
-                </div>
-              </a>
-
               <div class="card imath-btn-color w-100 mt-2 mb-4">
                 <div class="card-body">
                   <div class="row text-white text-center">
@@ -83,9 +86,6 @@
                           Hasil
                         </div>
                         <div class="col-md-7 text-end">Nilai Latihan :</div>
-                        <div class="col-md-5 text-start"></div>
-
-                        <div class="col-md-7 text-end">Nilai Quiz :</div>
                         <div class="col-md-5 text-start"></div>
                       </div>
                     </div>
@@ -100,9 +100,6 @@
                       <div class="row">
 
                         <div class="col-md-7 text-end">Nilai Rata - Rata :</div>
-                        <div class="col-md-5 text-start"></div>
-
-                        <div class="col-md-7 text-end">Nilai Rata - Rata umum :</div>
                         <div class="col-md-5 text-start"></div>
                       </div>
                     </div>

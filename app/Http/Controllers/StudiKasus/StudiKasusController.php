@@ -4,7 +4,12 @@ namespace App\Http\Controllers\StudiKasus;
 
 use App\Http\Controllers\Controller;
 use App\Models\Materi;
+use App\Models\JawabanPengetahuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class StudiKasusController extends Controller
 {
@@ -86,5 +91,27 @@ class StudiKasusController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function jawabanPengetahuan(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            for($i = 0; $i < count($request->pengetahuan); $i++) {
+                JawabanPengetahuan::create([
+                    'user_id' => Auth::user()->id,
+                    'pengetahuan_id' => $request->pengetahuan[$i],
+                    'jawaban' => $request->jawaban[$i],
+                ]);
+            }
+
+            DB::commit();
+
+            return Redirect::route('materi-ongoing.show', $request->id)->with('success','Jawaban Pengetahuan Telah Disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->with('error' , $e->getMessage());
+        }
     }
 }

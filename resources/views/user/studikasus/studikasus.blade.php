@@ -41,6 +41,35 @@
               </div>
             </div>
           </div>
+
+          <form action="{{ route('jawaban.pengetahuan')}}" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="id" value="{{$materi->id}}">
+            @csrf
+              <div class="container">
+                  @foreach ($materi->pengetahuans as $data)
+                      <div class="row  mt-4">
+                          <div class="col-sm-1">
+                              <button class="btn btn-sm btn-danger">{{$loop->iteration}}</button>
+                          </div>
+                          <div class="col-sm-11">
+                              <p> {{$data->isi}}</p>
+                              <div class="form-group">
+                                <input type="hidden" name="pengetahuan[]" value="{{$data->id}}">
+                                  <textarea class="form-control @error('jawaban') is-invalid @enderror " name="jawaban[]" autofocus value="{{ old('jawaban')}}" id="" cols="30" rows="5" required></textarea>
+                                  <div class="mt-2">@error('jawaban'){{$message}}@enderror</div>
+                              </div>
+                              <div class="form-group">
+                                <input type="file" name="jawaban_image[]">
+                              </div>
+                          </div>
+                      </div>
+                  @endforeach
+
+                  <div class="mt-4">
+                      <button type="submit" class="btn btn-danger btn-sm w-100" onclick="return confirm('Yakin ingin menyimpan jawaban?')">Kirim</button>
+                  </div>
+              </div>
+          </form>
         </div>
       </div>
   </div>

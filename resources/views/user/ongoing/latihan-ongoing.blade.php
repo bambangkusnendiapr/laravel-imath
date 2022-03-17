@@ -20,7 +20,7 @@
               <label class="text-white">
                 {{$user->name}}
               </label>
-              <small class="text-white">{{$user->mahasiswa->nim}}</small>
+              <small class="text-white">NIM:123456</small>
             </div>
             <div class="col-4 text-end">
               <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,8 +63,6 @@
                             <div class="col-sm-11">
                                 <p> {{$soal->soal}}</p>
                                 <div class="form-group">
-                                  <input type="hidden" name="user_id[]" value="{{Auth::user()->id}}">
-                                  <input type="hidden" name="latihan_id[]" value="{{$latihan_id}}">
                                   <input type="hidden" name="soal_id[]" value="{{$soal->id}}">
                                     <textarea class="form-control @error('jawaban') is-invalid @enderror " name="jawaban[]" autofocus value="{{ old('jawaban')}}" id="" cols="30" rows="5" required></textarea>
                                     <div class="mt-2">@error('jawaban'){{$message}}@enderror</div>

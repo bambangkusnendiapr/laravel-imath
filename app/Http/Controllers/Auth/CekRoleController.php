@@ -10,10 +10,9 @@ class CekRoleController extends Controller
 {
     //
     public function index(){
-        return 'ok';
-        if (Auth::user()->hasRole('admin')) {
-            return redirect()->route('dashboard.index');
-       }else{
+        if (Auth::user()->hasRole('admin|dosen')) {
+                return redirect()->route('dashboard.index');
+        }else{
             return redirect()->route('summary.index');
         }
     }
