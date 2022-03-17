@@ -70,17 +70,10 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown @yield('latihan')">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Latihan</span></a>
                 <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{ route('latihan.index')}}">Manajemen Latihan</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Kuis</span></a>
-                <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="{{ route('kuis.index')}}">Manajemen Kuis</a></li>
                 </ul>
               </li>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LembarKerjaController;
 use App\Http\Controllers\Admin\Kelas\KelasController;
 use App\Http\Controllers\Admin\Kuis\KuisController;
 use App\Http\Controllers\Admin\Latihan\LatihanController;
@@ -42,12 +43,13 @@ Route::post('/register-post', [RegisterBaruController::class, 'registerpost'])->
 
 Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::resource('/dashboard', DashboardController::class);
+    Route::resource('/lembar-kerja', LembarKerjaController::class);
 
+    Route::resource('/materi', MateriController::class);
     Route::resource('/latihan', LatihanController::class);
     Route::resource('/kuis', KuisController::class);
     Route::resource('/kelas', KelasController::class);
     Route::resource('/semester', SemesterController::class);
-    Route::resource('/materi', MateriController::class);
     Route::resource('/nilai', SemesterController::class);
 });
 

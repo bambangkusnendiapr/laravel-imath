@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('lembar-kerja', 'active')
 @section('content')
     
 @push('style')
@@ -9,11 +10,11 @@
 
 <section class="section">
     <div class="section-header">
-        <h1>Tambah Materi</h1>
+        <h1>Edit Lembar Kerja</h1>
         <div class="section-header-breadcrumb">
-          <div class="breadcrumb-item active"><a href="#">Tambah Materi</a></div>
-          <div class="breadcrumb-item"><a href="#">Bootstrap Components</a></div>
-          <div class="breadcrumb-item">Breadcrumb</div>
+          <div class="breadcrumb-item active"><a href="#">Admin</a></div>
+          <div class="breadcrumb-item"><a href="{{ route('materi.index') }}">Lembar Kerja</a></div>
+          <div class="breadcrumb-item">Edit</div>
         </div>
     </div>
 
@@ -64,21 +65,21 @@
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Judul</label>
                     <div class="col-sm-12 col-md-10">
-                      <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul',$materi->judul)}}" placeholder="isi judul materi...">
+                      <input type="text" required name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul',$materi->judul)}}" placeholder="isi judul materi...">
                     </div>
                     
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
                     <div class="col-sm-12 col-md-10">
-                      <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif',$materi->tgl_aktif)}}">
+                      <input type="date" required name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif',$materi->tgl_aktif)}}">
                     </div>
                     
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
                     <div class="col-sm-12 col-md-10">
-                      <textarea name="isi_materi" class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
+                      <textarea name="isi_materi" required class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
                     </div>
                     
                 </div>
@@ -86,14 +87,48 @@
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
                     <div class="col-sm-12 col-md-10">
                       <select name="status" class="form-control" id="" required>
-                          @if($materi->status == 'publikasi' || $materi->status == 'draft' )
-                          <option value="{{$materi->status}}" selected>{{$materi->status}}</option>
-                          <option value="draft">draft</option>
-                          <option value="publikasi">publikasi</option>
-                          @endif
+                          <option {{ $materi->status == 'draft' ? 'selected':'' }} value="draft">draft</option>
+                          <option {{ $materi->status == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
                       </select>
                     </div>
                 </div>
+
+                <hr>
+                <h4>Lembar Pengetahuan</h4>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
+                    <div class="col-sm-12 col-md-10">
+                      <input type="date" required name="tgl_aktif_pengetahuan" class="form-control @error('tgl_aktif_pengetahuan') is-invalid @enderror" autofocus value="{{ $tgl_aktif_pengetahuan }}">
+                    </div>
+                </div>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status_pengetahuan" class="form-control" id="">
+                          <option {{ $status_pengetahuan == 'draft' ? 'selected':'' }} value="draft">draft</option>
+                          <option {{ $status_pengetahuan == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary tambah" type="button">Tambah</button>
+                </div>
+                <div class="plus"></div>
+                @foreach($materi->pengetahuans as $data)
+                <div class="form-group row mb-4 control-group increment">
+                    <div class="col-sm-12 col-md-8">
+                        <textarea class="w-100" name="isi[]" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
+                    </div>
+                    <div class="col-sm-12 col-md-2">
+                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" value="{{$data->bobot}}">
+                        <p class="text-center">Bobot Nilai Maksimal</p>
+                    </div>
+                    <div class="col-sm-12 col-md-2 text-center">
+                        <button class="btn btn-danger hapus" type="button">Hapus</button>
+                    </div>
+                </div>
+                @endforeach
+                
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
                     <div class="col-sm-12 col-md-10">
@@ -101,6 +136,21 @@
                     </div>
                 </div>
               </form>
+              <div class="clone d-none">
+                {{-- CLONE --}}
+                <div class="form-group row mb-4 control-group">
+                    <div class="col-sm-12 col-md-8">
+                        <textarea class="w-100" name="isi[]" id="" cols="30" rows="3"></textarea>
+                    </div>
+                    <div class="col-sm-12 col-md-2">
+                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <p class="text-center">Bobot Nilai Maksimal</p>
+                    </div>
+                    <div class="col-sm-12 col-md-2 text-center">
+                        <button class="btn btn-danger hapus" type="button">Hapus</button>
+                    </div>
+                </div>
+              </div>
             </div>
             </div>
           </div>
@@ -124,6 +174,23 @@
        dialogsInBody: true,
       minHeight: 250,
     });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+      $(".tambah").click(function(){
+          var html = $(".clone").html();
+          $(".plus").after(html);
+      });
+
+      $("body").on("click",".hapus",function(){ 
+          $(this).parents(".control-group").remove();
+      });
+
+    });
+
 </script>
 
 @endpush

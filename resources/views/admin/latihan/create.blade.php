@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('latihan', 'active')
 @section('content')
     
 @push('style')
@@ -11,9 +12,9 @@
     <div class="section-header">
         <h1>Tambah Latihan</h1>
         <div class="section-header-breadcrumb">
-          <div class="breadcrumb-item active"><a href="#">Tambah Latihan</a></div>
-          <div class="breadcrumb-item"><a href="#">Bootstrap Components</a></div>
-          <div class="breadcrumb-item">Breadcrumb</div>
+          <div class="breadcrumb-item"><a href="#">Admin</a></div>
+          <div class="breadcrumb-item"><a href="{{ route('latihan.index') }}">Manjemen Latihan</a></div>
+          <div class="breadcrumb-item">Tambah</div>
         </div>
     </div>
 
@@ -74,7 +75,7 @@
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
                     <div class="col-sm-12 col-md-10">
                       <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif')}}" required>
-                </div>                
+                    </div>                
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>

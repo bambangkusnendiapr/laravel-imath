@@ -46,8 +46,8 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="card">
-            <div class="card-header">
-                @if (count($errors) > 0)
+            @if (count($errors) > 0)
+              <div class="card-header">
                     <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
                     <ul>
@@ -56,8 +56,8 @@
                         @endforeach
                     </ul>
                     </div>
-                @endif
-            </div>
+              </div>
+              @endif
             <div class="card-body">
               <form action="{{ route('materi.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -65,33 +65,64 @@
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Judul</label>
                     <div class="col-sm-12 col-md-10">
-                      <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul')}}" placeholder="isi judul materi...">
+                      <input type="text" name="judul" required class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul')}}" placeholder="isi judul materi...">
                     </div>
                     
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
                     <div class="col-sm-12 col-md-10">
-                      <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif')}}">
+                      <input type="date" required name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif')}}">
                     </div>
                     
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
                     <div class="col-sm-12 col-md-10">
-                      <textarea name="isi_materi" class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}"></textarea>
+                      <textarea name="isi_materi" required class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}"></textarea>
                     </div>
                     
                 </div>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
                     <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="" required>
+                      <select name="status" class="form-control" id="">
                           <option value="publikasi">Publikasi</option>
                           <option value="draft">Draft</option>
                       </select>
                     </div>
                 </div>
+
+                <hr>
+                <h4>Lembar Pengetahuan</h4>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
+                    <div class="col-sm-12 col-md-10">
+                      <input type="date" required name="tgl_aktif_pengetahuan" class="form-control @error('tgl_aktif_pengetahuan') is-invalid @enderror" autofocus value="{{ old('tgl_aktif_pengetahuan')}}">
+                    </div>
+                </div>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status_pengetahuan" class="form-control" id="">
+                          <option value="publikasi">Publikasi</option>
+                          <option value="draft">Draft</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-4 control-group increment">
+                    <div class="col-sm-12 col-md-8">
+                        <textarea class="w-100" name="isi[]" id="" cols="30" rows="3" ></textarea>
+                    </div>
+                    <div class="col-sm-12 col-md-2">
+                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <p class="text-center">Bobot Nilai Maksimal</p>
+                    </div>
+                    <div class="col-sm-12 col-md-2 text-center">
+                        <button class="btn btn-primary tambah" type="button">Tambah</button>
+                    </div>
+                </div>
+
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
                     <div class="col-sm-12 col-md-10">
@@ -99,6 +130,21 @@
                     </div>
                 </div>
               </form>
+
+              <div class="clone d-none">
+                  <div class="form-group row mb-4 control-group">
+                      <div class="col-sm-12 col-md-8">
+                          <textarea class="w-100" name="isi[]" id="" cols="30" rows="3" ></textarea>
+                      </div>
+                      <div class="col-sm-12 col-md-2">
+                          <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                          <p class="text-center">Bobot Nilai Maksimal</p>
+                      </div>
+                      <div class="col-sm-12 col-md-2 text-center">
+                          <button class="btn btn-danger hapus" type="button">Hapus</button>
+                      </div>
+                  </div>
+                </div>
             </div>
             </div>
           </div>
@@ -122,6 +168,24 @@
        dialogsInBody: true,
       minHeight: 250,
     });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+      $(".tambah").click(function(){
+          var html = $(".clone").html();
+          $(".increment").after(html);
+      });
+
+      $("body").on("click",".hapus",function(){ 
+          $(this).parents(".control-group").remove();
+      });
+
+
+    });
+
 </script>
 
 @endpush

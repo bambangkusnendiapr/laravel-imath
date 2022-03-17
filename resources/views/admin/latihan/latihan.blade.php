@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('latihan', 'active')
 @section('content')
     
 @push('style')
@@ -10,9 +11,8 @@
     <div class="section-header">
         <h1>Manajemen Latihan</h1>
         <div class="section-header-breadcrumb">
-          <div class="breadcrumb-item active"><a href="#">Manajemen Latihan</a></div>
-          <div class="breadcrumb-item"><a href="#">Bootstrap Components</a></div>
-          <div class="breadcrumb-item">Breadcrumb</div>
+          <div class="breadcrumb-item"><a href="#">Admin</a></div>
+          <div class="breadcrumb-item">Manajemen Latihan</div>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
                                 <td>{{$latihan->tgl_aktif}}</td>
                                 <td>
                                     <a href="{{ route('latihan.edit',$latihan->id)}}" class="btn btn-success btn-sm"><span data-feather="edit" style="width: 15px;"></span> Sunting</a>
-                                    <form action="/latihan/{{$latihan->id}}" method="POST" class="d-inline">
+                                    <form action="{{ route('latihan.destroy', $latihan->id) }}" method="POST" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="btn btn-danger border-0 btn-sm" onclick="return confirm('Yakin Mau Hapus Latihan Ini?')"><span data-feather="trash" style="width: 15px;"></span> Hapus</button>

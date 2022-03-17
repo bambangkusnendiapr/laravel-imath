@@ -33,11 +33,14 @@ class LatihanController extends Controller
      */
     public function create()
     {
-        //
-        $u = Latihan::pluck('materi_id');
         return view('admin.latihan.create',[
-            'materis' => Materi::whereNotIn('id',$u)->get(),
+            'materis' => Materi::all()
         ]);
+
+        // $u = Latihan::pluck('materi_id');
+        // return view('admin.latihan.create',[
+        //     'materis' => Materi::whereNotIn('id',$u)->get(),
+        // ]);
     }
 
     /**
@@ -48,8 +51,9 @@ class LatihanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
        $request->validate([
            'materi_id'=>'required',
            'tgl_aktif'=>'required',
@@ -63,23 +67,19 @@ class LatihanController extends Controller
        DB::beginTransaction();
        try{
 
-            $latihan_id = Latihan::create([
-                'materi_id'=>$request->materi_id,
-                'tgl_aktif'=>$request->tgl_aktif,
-                'status'=>$request->status,
-            ]);
-        
-        $uye = $request->soal;
-        foreach ($uye as $key => $value){
+        $latihan_id = Latihan::create([
+            'materi_id'=>$request->materi_id,
+            'tgl_aktif'=>$request->tgl_aktif,
+            'status'=>$request->status,
+        ]);
 
-                $soal[] = [
-                    "latihan_id"=> $latihan_id->id,
-                    "soal" => $request->soal[$key],
-                    "bobot" => $request->bobot[$key],
-                    "created_at" =>Carbon::now(),
-                ];
+        for($i = 0; $i < count($request->soal); $i++) {
+            SoalLatihan::create([
+                'latihan_id'=>$latihan_id->id,
+                'soal'=>$request->soal[$i],
+                'bobot'=>$request->bobot[$i],
+            ]); 
         }
-        SoalLatihan::insert($soal);
 
         DB::commit();
         return Redirect::route('latihan.index')->with('success','Latihan Baru Berhasil di Tambahkan');
@@ -125,23 +125,26 @@ class LatihanController extends Controller
      */
     public function update(Request $request, Latihan $latihan)
     {
-        //
-
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
+        
        DB::beginTransaction();
        try{
-        
-        $uye = $request->id;
-        foreach ($uye as $key => $value){
 
-            SoalLatihan::where('id', $request->id[$key])
-            ->update([
-                "soal" => $request->soal[$key],
-                "bobot" => $request->bobot[$key],
-                "created_at" =>Carbon::now(),
-            ]);
-        }
+        $latihan->tgl_aktif = $request->tgl_aktif;
+        $latihan->status = $request->status;
+        $latihan->save();
 
-        
+        SoalLatihan::where('latihan_id', $latihan->id)->delete();
+
+        for($i = 0; $i < count($request->soal); $i++) {
+            SoalLatihan::create([
+                'latihan_id'=>$latihan->id,
+                'soal'=>$request->soal[$i],
+                'bobot'=>$request->bobot[$i],
+            ]); 
+        }       
 
 
         DB::commit();
@@ -165,6 +168,7 @@ class LatihanController extends Controller
         DB::beginTransaction();
         try{
             Latihan::where('id', $latihan->id)->delete();
+            SoalLatihan::where('latihan_id', $latihan->id)->delete();
             DB::commit();
             return Redirect::route('latihan.index')->with('success','Latihan Berhasil di Hapus');
         }catch(Exception $e){

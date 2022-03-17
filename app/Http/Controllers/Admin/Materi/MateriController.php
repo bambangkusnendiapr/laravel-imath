@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Materi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Materi;
+use App\Models\Pengetahuan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,12 +45,19 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
         $request->validate([
             'judul' => 'required',
             'tgl_aktif' => 'required',
+            'tgl_aktif_pengetahuan' => 'required',
+            'status_pengetahuan' => 'required',
             'isi_materi' => 'required',
             'status' => 'required',
+            'isi' => 'required',
+            'bobot' => 'required',
         ],[
             'judul.*' => 'Judul Materi harus di Isi',
             'tgl_aktif.*' => 'Tanggal Aktif Harus di Isi',
@@ -60,12 +68,22 @@ class MateriController extends Controller
         DB::beginTransaction();
         try{
 
-            Materi::create([
+            $materi = Materi::create([
                 'judul' => $request->judul,
                 'tgl_aktif' => $request->tgl_aktif,
                 'isi_materi' => $request->isi_materi,
                 'status' => $request->status,
             ]);
+
+            for($i = 0; $i<count($request->isi); $i++) {
+                Pengetahuan::create([
+                    'materi_id' => $materi->id,
+                    'isi' => $request->isi[$i],
+                    'tgl_aktif' => $request->tgl_aktif_pengetahuan,
+                    'status' => $request->status_pengetahuan,
+                    'bobot' => $request->bobot[$i],
+                ]);
+            }
 
             DB::commit();
             return Redirect::route('materi.index')->with('success','Materi Baru Berhasil di Tambahkan');
@@ -96,9 +114,11 @@ class MateriController extends Controller
      */
     public function edit(Materi $materi)
     {
-        //
+        $pengetahuan = DB::table('pengetahuans')->where('materi_id', $materi->id)->first();
         return view('admin.materi.edit',[
             'materi'=> $materi,
+            'tgl_aktif_pengetahuan' => $pengetahuan->tgl_aktif,
+            'status_pengetahuan' => $pengetahuan->status
         ]);
     }
 
@@ -111,12 +131,16 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        //
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
         $request->validate([
             'judul' => 'required',
             'tgl_aktif' => 'required',
             'isi_materi' => 'required',
             'status' => 'required',
+            'isi' => 'required',
+            'bobot' => 'required',
         ],[
             'judul.*' => 'Judul Materi harus di Isi',
             'tgl_aktif.*' => 'Tanggal Aktif Harus di Isi',
@@ -137,6 +161,18 @@ class MateriController extends Controller
             ];
 
             Materi::where('id',$materi->id)->update($update_materi);
+
+            Pengetahuan::where('materi_id', $materi->id)->delete();
+
+            for($i = 0; $i<count($request->isi); $i++) {
+                Pengetahuan::create([
+                    'materi_id' => $materi->id,
+                    'isi' => $request->isi[$i],
+                    'tgl_aktif' => $request->tgl_aktif_pengetahuan,
+                    'status' => $request->status_pengetahuan,
+                    'bobot' => $request->bobot[$i],
+                ]);
+            }
 
             DB::commit();
             return Redirect::route('materi.index')->with('success','Materi Berhasil di Update');
@@ -159,8 +195,10 @@ class MateriController extends Controller
         try{
             Materi::where('id', $materi->id)->delete();
 
+            Pengetahuan::where('materi_id', $materi->id)->delete();
+
             DB::commit();
-            return Redirect::route('materi.index')->with('success','Materi Berhasil di Hapus');
+            return Redirect::route('materi.index')->with('success','Lembar Kerja Berhasil di Hapus');
         }catch(Exception $e){
             DB::rollBack();
             return Redirect::back()->with('error' , $e->getMessage());

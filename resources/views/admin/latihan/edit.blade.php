@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('latihan', 'active')
 @section('content')
     
 @push('style')
@@ -9,11 +10,11 @@
 
 <section class="section">
     <div class="section-header">
-        <h1>Tambah Latihan</h1>
+        <h1>Edit Latihan</h1>
         <div class="section-header-breadcrumb">
-          <div class="breadcrumb-item active"><a href="#">Tambah Latihan</a></div>
-          <div class="breadcrumb-item"><a href="#">Bootstrap Components</a></div>
-          <div class="breadcrumb-item">Breadcrumb</div>
+          <div class="breadcrumb-item"><a href="#">Admin</a></div>
+          <div class="breadcrumb-item"><a href="{{ route('latihan.index') }}">Manjemen Latihan</a></div>
+          <div class="breadcrumb-item">Edit</div>
         </div>
     </div>
 
@@ -65,6 +66,22 @@
                     <div class="col-sm-12 col-md-10">
                       <select name="materi_id" class="form-control" id="" required>
                             <option value="{{$latihan->materi_id}}" selected>{{$latihan->materi->judul}}</option>
+                      </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
+                    <div class="col-sm-12 col-md-10">
+                      <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ $latihan->tgl_aktif }}" required>
+                    </div>                
+                </div>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status" class="form-control" id="" required>
+                          <option {{ $latihan->status == 'publikasi' ? 'selected':'' }} value="publikasi">Publikasi</option>
+                          <option {{ $latihan->status == 'publikasi' ? '':'selected' }} value="draft">Draft</option>
                       </select>
                     </div>
                 </div>

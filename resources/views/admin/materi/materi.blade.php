@@ -58,10 +58,10 @@
                                 <td>{{$materi->tgl_aktif}}</td>
                                 <td>
                                     <a href="{{ route('materi.edit',$materi->id)}}" class="btn btn-success btn-sm"><span data-feather="edit" style="width: 15px;"></span> Sunting</a>
-                                    <form action="/materi/{{$materi->id}}" method="POST" class="d-inline">
+                                    <form action="{{ route('materi.destroy', $materi->id) }}" method="POST" class="d-inline">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-danger border-0 btn-sm" onclick="return confirm('Yakin Mau Hapus Materi Ini?')"><span data-feather="trash" style="width: 15px;"></span> Hapus</button>
+                                        <button class="btn btn-danger border-0 btn-sm" onclick="return confirm('Yakin Mau Hapus Lembar Kerja Ini?')"><span data-feather="trash" style="width: 15px;"></span> Hapus</button>
                                       </form>
                                 </td>
                             </tr>
