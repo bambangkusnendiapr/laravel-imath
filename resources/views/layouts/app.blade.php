@@ -77,7 +77,7 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown @yield('nilai')">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Nilai</span></a>
                 <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{ route('nilai.index')}}">Manajemen Nilai</a></li>

@@ -10,4 +10,9 @@ class JawabanPengetahuan extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+
+    public function pengetahuan()
+    {
+        return $this->belongsTo(Pengetahuan::class);
+    }
 }

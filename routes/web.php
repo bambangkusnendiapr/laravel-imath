@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Kuis\KuisController;
 use App\Http\Controllers\Admin\Latihan\LatihanController;
 use App\Http\Controllers\Admin\Materi\MateriController;
 use App\Http\Controllers\Admin\Semester\SemesterController;
+use App\Http\Controllers\Admin\Nilai\NilaiController;
 use App\Http\Controllers\Auth\CekRoleController;
 use App\Http\Controllers\Auth\LoginViewController;
 use App\Http\Controllers\Auth\LogoutViewController;
@@ -48,10 +49,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
 
     Route::resource('/materi', MateriController::class);
     Route::resource('/latihan', LatihanController::class);
+    Route::resource('/nilai', NilaiController::class);
+    Route::post('/nilai-latihan-store', [NilaiController::class, 'nilaiLatihan'])->name('nilai.latihan.store');
+
     Route::resource('/kuis', KuisController::class);
     Route::resource('/kelas', KelasController::class);
     Route::resource('/semester', SemesterController::class);
-    Route::resource('/nilai', SemesterController::class);
 });
 
 

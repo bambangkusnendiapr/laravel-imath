@@ -11,4 +11,9 @@ class JawabanLatihan extends Model
 
     protected $table = 'jawaban_latihan';
     protected $guarded = [];
+
+    public function soalLatihan()
+    {
+        return $this->belongsTo(SoalLatihan::class);
+    }
 }

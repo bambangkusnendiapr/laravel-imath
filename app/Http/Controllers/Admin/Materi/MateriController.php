@@ -52,8 +52,6 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required',
             'tgl_aktif' => 'required',
-            'tgl_aktif_pengetahuan' => 'required',
-            'status_pengetahuan' => 'required',
             'isi_materi' => 'required',
             'status' => 'required',
             'isi' => 'required',
@@ -79,8 +77,6 @@ class MateriController extends Controller
                 Pengetahuan::create([
                     'materi_id' => $materi->id,
                     'isi' => $request->isi[$i],
-                    'tgl_aktif' => $request->tgl_aktif_pengetahuan,
-                    'status' => $request->status_pengetahuan,
                     'bobot' => $request->bobot[$i],
                 ]);
             }
@@ -168,8 +164,6 @@ class MateriController extends Controller
                 Pengetahuan::create([
                     'materi_id' => $materi->id,
                     'isi' => $request->isi[$i],
-                    'tgl_aktif' => $request->tgl_aktif_pengetahuan,
-                    'status' => $request->status_pengetahuan,
                     'bobot' => $request->bobot[$i],
                 ]);
             }

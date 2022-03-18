@@ -83,33 +83,10 @@
                     </div>
                     
                 </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="">
-                          <option value="publikasi">Publikasi</option>
-                          <option value="draft">Draft</option>
-                      </select>
-                    </div>
-                </div>
+                
 
                 <hr>
                 <h4>Lembar Pengetahuan</h4>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="date" required name="tgl_aktif_pengetahuan" class="form-control @error('tgl_aktif_pengetahuan') is-invalid @enderror" autofocus value="{{ old('tgl_aktif_pengetahuan')}}">
-                    </div>
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status_pengetahuan" class="form-control" id="">
-                          <option value="publikasi">Publikasi</option>
-                          <option value="draft">Draft</option>
-                      </select>
-                    </div>
-                </div>
                 <div class="form-group row mb-4 control-group increment">
                     <div class="col-sm-12 col-md-8">
                         <textarea class="w-100" name="isi[]" id="" cols="30" rows="3" ></textarea>
@@ -120,6 +97,17 @@
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">
                         <button class="btn btn-primary tambah" type="button">Tambah</button>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status" class="form-control" id="">
+                          <option value="publikasi">Publikasi</option>
+                          <option value="draft">Draft</option>
+                      </select>
                     </div>
                 </div>
 

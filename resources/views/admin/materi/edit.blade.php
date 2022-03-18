@@ -83,33 +83,10 @@
                     </div>
                     
                 </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="" required>
-                          <option {{ $materi->status == 'draft' ? 'selected':'' }} value="draft">draft</option>
-                          <option {{ $materi->status == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
-                      </select>
-                    </div>
-                </div>
+                
 
                 <hr>
                 <h4>Lembar Pengetahuan</h4>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="date" required name="tgl_aktif_pengetahuan" class="form-control @error('tgl_aktif_pengetahuan') is-invalid @enderror" autofocus value="{{ $tgl_aktif_pengetahuan }}">
-                    </div>
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status_pengetahuan" class="form-control" id="">
-                          <option {{ $status_pengetahuan == 'draft' ? 'selected':'' }} value="draft">draft</option>
-                          <option {{ $status_pengetahuan == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
-                      </select>
-                    </div>
-                </div>
                 <div class="mb-3">
                     <button class="btn btn-primary tambah" type="button">Tambah</button>
                 </div>
@@ -128,6 +105,17 @@
                     </div>
                 </div>
                 @endforeach
+
+                <hr>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status" class="form-control" id="" required>
+                          <option {{ $materi->status == 'draft' ? 'selected':'' }} value="draft">draft</option>
+                          <option {{ $materi->status == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
+                      </select>
+                    </div>
+                </div>
                 
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
