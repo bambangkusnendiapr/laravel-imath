@@ -4,12 +4,14 @@ namespace App\Http\Controllers\StudiKasus;
 
 use App\Http\Controllers\Controller;
 use App\Models\Materi;
+use App\Models\Jawaban;
 use App\Models\JawabanPengetahuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
 
 class StudiKasusController extends Controller
 {
@@ -53,9 +55,17 @@ class StudiKasusController extends Controller
      */
     public function show($id)
     {
-        //
+        $jawaban = Jawaban::where('materi_id', $id)->where('user_id', Auth::user()->id)->where('tgl_jawab_pengetahuan', '!=', null)->first();
+
+        if($jawaban) {
+            $jawaban = 'disabled';
+        } else {
+            $jawaban = 'enabled';
+        }
+
         return view('user.studikasus.studikasus',[
             'materi'=> Materi::where('id',$id)->first(),
+            'jawaban' => $jawaban
         ]);
     }
 
@@ -105,6 +115,19 @@ class StudiKasusController extends Controller
                     'jawaban' => $request->jawaban[$i],
                 ]);
             }
+
+            $jawaban = Jawaban::where('materi_id', $request->id)->where('user_id', Auth::user()->id)->first();
+            
+            if($jawaban) {
+                $jawaban->tgl_jawab_pengetahuan = Carbon::now()->format('Y-m-d');
+                $jawaban->save();
+            } else {
+                Jawaban::create([
+                    'materi_id' => $request->id,
+                    'user_id' => Auth::user()->id,
+                    'tgl_jawab_pengetahuan' => Carbon::now()->format('Y-m-d'),
+                ]);
+            }            
 
             DB::commit();
 

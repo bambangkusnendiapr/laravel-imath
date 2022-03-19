@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::resource('/materi', MateriController::class);
     Route::resource('/latihan', LatihanController::class);
     Route::resource('/nilai', NilaiController::class);
+    Route::get('/nilai/{idUser}/{idMateri}/show', [NilaiController::class, 'nilaiShow'])->name('nilaiShow');
     Route::post('/nilai-latihan-store', [NilaiController::class, 'nilaiLatihan'])->name('nilai.latihan.store');
 
     Route::resource('/kuis', KuisController::class);
@@ -62,11 +63,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
 Route::group(['prefix' => 'mahasiswa', 'middleware' => ['role:mahasiswa|admin']], function() {
     Route::get('/app', [AppController::class, 'index'])->name('app.index');
 
+    //app 1
     Route::resource('/summary', DashboardUserController::class);
     Route::resource('/materi-ongoing', MateriOngoingController::class);
+
+    //App pengetahuan dan jawaban
     Route::resource('/studi-kasus', StudiKasusController::class);
     Route::post('/jawabanPengetahuan', [StudiKasusController::class, 'jawabanPengetahuan'])->name('jawaban.pengetahuan');
 
+    //app latihan dan jawaban
     Route::resource('/latihan-ongoing', OngoingLatihanController::class);
     Route::resource('/kuis-ongoing', OngoingKuisController::class);
 

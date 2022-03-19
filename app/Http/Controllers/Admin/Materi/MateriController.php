@@ -45,7 +45,7 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->tgl_aktif);
         if(array_sum($request->bobot) > 100) {
             return Redirect::back()->with('error' , 'Bobot lebih dari 100');
         }

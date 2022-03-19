@@ -19,7 +19,7 @@ class DashboardUserController extends Controller
     {
         //
         return view('user.dashboard',[
-            'materis'=> Materi::orderBy('judul','ASC')->get(),
+            'materis'=> Materi::orderBy('judul','ASC')->where('status', 'publikasi')->get(),
             'user'=> User::where('id', Auth::user()->id)->first()
         ]);
     }

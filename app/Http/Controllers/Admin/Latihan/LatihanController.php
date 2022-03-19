@@ -56,11 +56,9 @@ class LatihanController extends Controller
         }
        $request->validate([
            'materi_id'=>'required',
-           'tgl_aktif'=>'required',
            'status'=>'required',
        ],[
             'materi_id.*'=>'Materi Harus di Isi',
-            'tgl_aktif.*'=>'Tanggal Aktif Harus di Isi',
             'status.*'=>'Status Harus di Isi',  
        ]);
 

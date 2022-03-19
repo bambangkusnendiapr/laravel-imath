@@ -39,7 +39,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table-1">
+                    <table class="table table-striped">
                       <thead>
                         <tr>
                           <th class="text-center" style="width:35px;" rowspan="1" colspan="1">No</th>
@@ -55,7 +55,7 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$latihan->materi->judul}}</td>
                                 <td>{{$latihan->status}}</td>
-                                <td>{{$latihan->tgl_aktif}}</td>
+                                <td>{{$latihan->materi->tgl_aktif}}</td>
                                 <td>
                                     <a href="{{ route('latihan.edit',$latihan->id)}}" class="btn btn-success btn-sm"><span data-feather="edit" style="width: 15px;"></span> Sunting</a>
                                     <form action="{{ route('latihan.destroy', $latihan->id) }}" method="POST" class="d-inline">

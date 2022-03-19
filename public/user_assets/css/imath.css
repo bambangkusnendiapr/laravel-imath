@@ -1,21 +1,145 @@
-.imath-btn-color{
-  background: linear-gradient(180deg, #F7941D 0%, #DA7A07 100%);
-  border-radius: 10px;
+* {
+    font-family: 'Open Sans', sans-serif;
 }
-.imath-body-color{
-  background: linear-gradient(180deg, #FCB040 73.44%, #FBD194 100%);
+
+.card {
+    border: none;
 }
-.imath-body-color-white{
-  background: linear-gradient(180deg, #FFFFFF 73.44%, #CCD2E3 100%);
+
+
+/* login */
+
+.login input {
+    height: 38px!important;
 }
-.imath-header-color{
-  background: #FE6610;
-  height: 84px;
+
+.login label {
+    line-height: 1px;
 }
-.imath-btn-gradient{
-  background: linear-gradient(180deg, #FE6610 43.23%, #C04B0A 100%);
+
+.daftar input {
+    height: 38px!important;
+}
+
+.daftar label {
+    line-height: 1px;
+}
+
+.text-blue {
+    font-weight: 800;
+    color: #0241fd;
+}
+
+.footer {
+    margin-top: 15px!important;
+}
+
+.footer-daftar {
+    margin-top: 15px!important;
+}
+
+.text-footer-logo {
+    color: #aaaaaa;
+}
+
+.imath-btn-color {
+    background: linear-gradient(180deg, #ff930f 0%, #DA7A07 100%);
+    border-radius: 20px;
+}
+
+
+/* .imath-body-color {
+    background: linear-gradient(180deg, #FCB040 73.44%, #FBD194 100%);
+} */
+
+.imath-body-color-white {
+    background: linear-gradient(180deg, #FFFFFF 73.44%, #CCD2E3 100%);
+}
+
+.imath-header-color {
+    background: #FE6610;
+    height: 84px;
+}
+
+.imath-btn-gradient {
+    background: linear-gradient(180deg, #FE6610 43.23%, #C04B0A 100%);
 }
 
 a {
-  text-decoration: none !important;
+    text-decoration: none !important;
+}
+
+
+/* isi materi */
+
+.container .isimateri div {
+    white-space: pre-wrap!important;
+}
+
+.container .isimateri div img {
+    float: left;
+}
+
+
+/* form */
+
+
+/* Style the form */
+
+
+/* Style the input fields */
+
+.btn-success {
+    background: linear-gradient(180deg, #FE6610 43.23%, #C04B0A 100%)!important;
+    border: none;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+}
+
+
+/* Mark input boxes that gets an error on validation: */
+
+input.invalid {
+    background-color: #ffdddd;
+}
+
+
+/* Hide all steps by default: */
+
+.tab {
+    display: none;
+}
+
+
+/* Make circles that indicate the steps of the form: */
+
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background: linear-gradient(180deg, #FE6610 43.23%, #C04B0A 100%)!important;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+
+/* Mark the active step: */
+
+.step.active {
+    opacity: 1;
+}
+
+
+/* Mark the steps that are finished and valid: */
+
+.step.finish {
+    background-color: #04AA6D;
 }

@@ -14,4 +14,9 @@ class Latihan extends Model
     public function materi(){
         return $this->belongsTo(Materi::class,'materi_id','id');
     }
+
+    public function soalLatihans()
+    {
+        return $this->hasMany(SoalLatihan::class);
+    }
 }

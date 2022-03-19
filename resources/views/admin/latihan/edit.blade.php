@@ -46,7 +46,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="card">
-            <div class="card-header">
+            <div class="card-body">
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -57,8 +57,6 @@
                     </ul>
                     </div>
                 @endif
-            </div>
-            <div class="card-body">
               <form action="{{ route('latihan.update',$latihan->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 <div class="form-group row mb-4">
@@ -69,22 +67,7 @@
                       </select>
                     </div>
                 </div>
-
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ $latihan->tgl_aktif }}" required>
-                    </div>                
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="" required>
-                          <option {{ $latihan->status == 'publikasi' ? 'selected':'' }} value="publikasi">Publikasi</option>
-                          <option {{ $latihan->status == 'publikasi' ? '':'selected' }} value="draft">Draft</option>
-                      </select>
-                    </div>
-                </div>
+                
 
                 <h4>Soal Latihan</h4>
                 <hr>
@@ -107,6 +90,17 @@
                     </div>
                 </div>
                 @endforeach
+
+                <hr>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status" class="form-control" id="" required>
+                          <option {{ $latihan->status == 'publikasi' ? 'selected':'' }} value="publikasi">Publikasi</option>
+                          <option {{ $latihan->status == 'publikasi' ? '':'selected' }} value="draft">Draft</option>
+                      </select>
+                    </div>
+                </div>
                 
                 <div class="form-group row mb-4">
                     <div class="col-sm-12 col-md-12">

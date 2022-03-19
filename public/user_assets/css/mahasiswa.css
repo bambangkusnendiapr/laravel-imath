@@ -1,0 +1,242 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.bg-dashboard {
+    background: rgb(245, 155, 57);
+    background: linear-gradient(180deg, rgba(248, 141, 27, 0.788) 61%, rgba(255, 197, 132, 0.88) 100%);
+    position: relative;
+}
+
+.garis {
+    position: absolute;
+    top: 0px;
+    left: 2.3rem;
+    height: 32rem;
+    border-left: 5px solid rgb(216, 38, 15);
+    border-bottom-left-radius: 8px;
+}
+
+.iteration {
+    font-size: 26px;
+    line-height: 22px;
+    font-weight: bolder;
+    color: rgb(216, 38, 15);
+}
+
+.text-end i {
+    font-size: 26px;
+}
+
+.imath-btn-color-tidak-aktif {
+    background: linear-gradient(180deg, #FE6610 43.23%, #C04B0A 100%);
+    border-radius: 20px;
+}
+
+
+/* studi kasus */
+
+.content-studi-kasus {
+    margin-left: 5px;
+}
+
+
+/* materi on going */
+
+.materi-on-hasil {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 20px;
+    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
+.materi-on {
+    margin-top: -50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: relative;
+    z-index: 2;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+
+/* latihan on going */
+
+.note-toolbar,
+.note-resizebar {
+    display: none;
+}
+
+.note-editing-area {
+    border: none!important;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable {
+    border: 5px solid red!important;
+    box-sizing: border-box;
+    border-radius: 10%;
+    position: relative;
+    z-index: 2;
+}
+
+.note-editor.note-frame,
+.note-editing-area {
+    /* border: 1px solid red!important; */
+    border-radius: 10%!important;
+    box-sizing: border-box;
+}
+
+.note-editor.note-frame .note-statusbar {
+    border: none!important;
+}
+
+.bg-dashboard-latihan {
+    background-color: #fff;
+    position: relative;
+}
+
+.garis-latihan {
+    position: absolute;
+    top: -17px;
+    left: 2.3rem;
+    height: 32rem;
+    border-left: 5px solid rgb(216, 38, 15);
+    border-bottom-left-radius: 8px;
+}
+
+.garis-fixed {
+    position: relative;
+}
+
+.nomer {
+    width: 50px;
+    height: 50px;
+    background-color: rgb(216, 38, 15);
+    font-size: 18px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    top: 20px;
+    left: 15px;
+    color: #fff;
+    position: absolute;
+}
+
+.paragrap {
+    margin-left: 70px;
+    font-size: 14px;
+}
+
+.paragrap h5 {
+    margin-right: 25px;
+}
+
+.font {
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    color: #FE6610;
+}
+
+.content-edit {
+    width: 30%;
+    margin: 0 auto;
+}
+
+.content-edit .edit {
+    font-size: 28px;
+    color: rgb(216, 38, 15);
+}
+
+.content-edit .camera {
+    font-size: 28px;
+    color: rgb(216, 38, 15);
+}
+
+.content-edit .atau {
+    font-size: 16px;
+    color: rgb(87, 87, 87);
+}
+
+.nav-arrows {
+    li {
+        float: left;
+        width: 76px;
+        height: 55px;
+        border: 1px solid #000;
+        text-align: center;
+        list-style: none;
+        &.fs-pagi-disabled {
+            pointer-events: none;
+            background: #dadada;
+            opacity: 0.3;
+        }
+        &:hover {
+            background-color: #000;
+            a {
+                color: #fff;
+            }
+        }
+        &:first-child {
+            border-radius: 30px 0 0 30px;
+        }
+        &:last-child {
+            border-left: none;
+            border-radius: 0 30px 30px 0;
+        }
+        a {
+            display: block;
+            color: #000;
+            line-height: 55px;
+            font-size: 26px;
+        }
+    }
+}
+
+.page-count,
+.total-page-count {
+    position: relative;
+    top: -10px;
+    color: #a0a0a0;
+}
+
+.pagi-disabled {
+    pointer-events: none;
+    background: #dadada;
+    opacity: 0.3;
+}
+
+.prev i,
+.next i {
+    font-size: 30px;
+    color: #FE6610;
+}
+
+
+/* tentang */
+
+.content-tentang {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.content-tentang p {
+    font-size: 13px;
+}
+
+.garis-fixed {
+    position: relative;
+}
+
+.garis-table {
+    border-right: 2px solid rgba(196, 196, 196, 0.349);
+    height: 34rem;
+    right: 45rem;
+    position: absolute;
+}

@@ -46,7 +46,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="card">
-            <div class="card-header">
+            <div class="card-body">
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -57,8 +57,6 @@
                     </ul>
                     </div>
                 @endif
-            </div>
-            <div class="card-body">
               <form action="{{ route('latihan.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row mb-4">
@@ -71,27 +69,12 @@
                       </select>
                     </div>
                 </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="date" name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif')}}" required>
-                    </div>                
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="" required>
-                          <option value="publikasi">Publikasi</option>
-                          <option value="draft">Draft</option>
-                      </select>
-                    </div>
-                </div>
-
+                
                 <h4>Soal Latihan</h4>
                 <hr>
                 <div class="form-group row mb-4 control-group increment">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="soal[]" id="" cols="30" rows="3" ></textarea>
+                        <textarea class="w-100 form-control" name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
                         <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
@@ -99,6 +82,16 @@
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">
                         <button class="btn btn-primary" type="button">Tambah</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                    <div class="col-sm-12 col-md-10">
+                      <select name="status" class="form-control" id="" required>
+                          <option value="publikasi">Publikasi</option>
+                          <option value="draft">Draft</option>
+                      </select>
                     </div>
                 </div>
 
@@ -112,7 +105,7 @@
               <div class="clone d-none">
                 <div class="form-group row mb-4 control-group">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="soal[]" id="" cols="30" rows="3" ></textarea>
+                        <textarea class="w-100 form-control" name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
                         <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >

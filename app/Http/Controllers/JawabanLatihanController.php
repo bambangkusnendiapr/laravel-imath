@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\SoalLatihan;
+use App\Models\Jawaban;
 use Illuminate\Support\Facades\Auth;
 
 class JawabanLatihanController extends Controller
@@ -52,9 +53,21 @@ class JawabanLatihanController extends Controller
                     'jawaban' => $request->jawaban[$i],
                 ]);
             }
+
+            $jawaban = Jawaban::where('materi_id', $request->materi_id)->where('user_id', Auth::user()->id)->first();
+            if($jawaban) {
+                $jawaban->tgl_jawab_latihan = Carbon::now()->format('Y-m-d');
+                $jawaban->save();
+            } else {
+                Jawaban::create([
+                    'materi_id' => $request->id,
+                    'user_id' => Auth::user()->id,
+                    'tgl_jawab_latihan' => Carbon::now()->format('Y-m-d'),
+                ]);
+            }
  
          DB::commit();
-         return Redirect::route('summary.index')->with('success','Latihan Berhasil di Kerjakan');
+         return Redirect::route('materi-ongoing.show', $request->materi_id)->with('success','Jawaban Pengetahuan Telah Disimpan');
         }catch(Exception $e){
          DB::rollBack();
          return Redirect::back()->with('error' , $e->getMessage());

@@ -11,11 +11,13 @@ use App\Models\Latihan;
 use App\Models\Pengetahuan;
 use App\Models\JawabanPengetahuan;
 use App\Models\JawabanLatihan;
+use App\Models\Jawaban;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\SoalLatihan;
+use Carbon\Carbon;
 
 class NilaiController extends Controller
 {
@@ -26,8 +28,15 @@ class NilaiController extends Controller
      */
     public function index()
     {
+        $jawaban = null;
+        if(request('materi')) {
+            $jawaban = Jawaban::where('materi_id', request('materi'))->where('arsip', false)->get();
+        }
+
         return view('admin.nilai.nilai', [
-            'mahasiswa' => Mahasiswa::all()
+            'mahasiswa' => Mahasiswa::all(),
+            'materi' => Materi::where('status', 'publikasi')->get(),
+            'jawaban' => $jawaban
         ]);
     }
 
@@ -49,6 +58,10 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
+        if(array_sum($request->nilai) > 100) {
+            return Redirect::back()->with('error' , 'Nilai lebih dari bobot');
+        }
+
         DB::beginTransaction();
 
         try {
@@ -56,6 +69,9 @@ class NilaiController extends Controller
                 JawabanPengetahuan::where('id', $request->id[$i])
                         ->update(['nilai' => $request->nilai[$i]]);
             }
+
+            Jawaban::where('materi_id', $request->idMateri)->where('user_id', $request->idUser)
+                        ->update(['tgl_nilai_pengetahuan' => Carbon::now()->format('Y-m-d')]);
 
             DB::commit();
             return Redirect::back()->with('success','Nilai Berhasil Disimpan');
@@ -73,7 +89,10 @@ class NilaiController extends Controller
      */
     public function show($idMahasiswa)
     {
+        return Redirect::route('nilai.index');
+
         $mahasiswa = Mahasiswa::find($idMahasiswa);
+        $userId = $mahasiswa->user_id;
         $jawabanPengetahuan = null;
         $jawabanLatihan = null;
         if(request('pengetahuan')) {
@@ -87,13 +106,13 @@ class NilaiController extends Controller
             $jawabanLatihan = JawabanLatihan::where('user_id', $mahasiswa->user_id)->whereIn('soal_latihan_id', $soalLatihan)->get();
         }
 
-        return view('admin.nilai.show', [
-            'mahasiswa' => $mahasiswa,
-            'idMahasiswa' => $idMahasiswa,
-            'materi' => Materi::all(),
-            'jawabanPengetahuan' => $jawabanPengetahuan,
-            'jawabanLatihan' => $jawabanLatihan
-        ]);
+        // return view('admin.nilai.show', [
+        //     'mahasiswa' => $mahasiswa,
+        //     'idMahasiswa' => $idMahasiswa,
+        //     'materi' => Materi::all(),
+        //     'jawabanPengetahuan' => $jawabanPengetahuan,
+        //     'jawabanLatihan' => $jawabanLatihan
+        // ]);
     }
 
     /**
@@ -130,8 +149,28 @@ class NilaiController extends Controller
         //
     }
 
+    public function nilaiShow($idUser, $idMateri)
+    {
+
+        $pengetahuan = Pengetahuan::where('materi_id', $idMateri)->get('id');
+
+        $latihan = Latihan::where('materi_id', $idMateri)->first();
+        $soalLatihan = SoalLatihan::where('latihan_id', $latihan->id)->get('id');
+
+        return view('admin.nilai.show', [
+            'user' => User::find($idUser),
+            'materi' => Materi::find($idMateri),
+            'jawabanPengetahuan' => JawabanPengetahuan::where('user_id', $idUser)->whereIn('pengetahuan_id', $pengetahuan)->get(),
+            'jawabanLatihan' => JawabanLatihan::where('user_id', $idUser)->whereIn('soal_latihan_id', $soalLatihan)->get()
+        ]);
+    }
+
     public function nilaiLatihan(Request $request)
     {
+        if(array_sum($request->nilai) > 100) {
+            return Redirect::back()->with('error' , 'Nilai lebih dari bobot');
+        }
+
         DB::beginTransaction();
 
         try {
@@ -139,6 +178,9 @@ class NilaiController extends Controller
                 JawabanLatihan::where('id', $request->id[$i])
                         ->update(['nilai' => $request->nilai[$i]]);
             }
+
+            Jawaban::where('materi_id', $request->idMateri)->where('user_id', $request->idUser)
+                        ->update(['tgl_nilai_latihan' => Carbon::now()->format('Y-m-d')]);
 
             DB::commit();
             return Redirect::back()->with('success','Nilai Berhasil Disimpan');

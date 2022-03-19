@@ -32,7 +32,7 @@
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="{{ asset('admin_assets/assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
+            <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a href="#" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> Profile
@@ -78,7 +78,7 @@
               </li>
 
               <li class="nav-item dropdown @yield('nilai')">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Nilai</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Laporan Mahasiswa</span></a>
                 <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{ route('nilai.index')}}">Manajemen Nilai</a></li>
                 </ul>
@@ -95,10 +95,10 @@
 
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://itkawai.com/">Iqbal Naufal Firdaus</a>
+          Copyright &copy; 2018 <div class="bullet"></div> Develop By <a href="https://hilfideveloper.com/" target="_blank">Hilfi Developer</a>
         </div>
         <div class="footer-right">
-          2.3.0
+          V. 1.0.0
         </div>
       </footer>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ongoing;
 use App\Http\Controllers\Controller;
 use App\Models\SoalLatihan;
 use App\Models\User;
+use App\Models\Latihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,11 +50,13 @@ class OngoingLatihanController extends Controller
      */
     public function show($id)
     {
-        //
+        $latihan = Latihan::find($id);
+
         return view('user.ongoing.latihan-ongoing',[
             'latihan_id'=>$id,
             'soals'=> SoalLatihan::all(),
-            'user'=> User::where('id', Auth::user()->id)->first()
+            'user'=> User::where('id', Auth::user()->id)->first(),
+            'materi_id' => $latihan->materi_id
         ]);
     }
 

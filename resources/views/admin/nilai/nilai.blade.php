@@ -11,7 +11,7 @@
     <div class="section-header">
         <h1>Manajemen Nilai</h1>
         <div class="section-header-breadcrumb">
-          <div class="breadcrumb-item active"><a href="#">Admin</a></div>
+          <div class="breadcrumb-item active"><a href="#">Laporan Mahasiswa</a></div>
           <div class="breadcrumb-item">Manajemen Nilai</div>
         </div>
     </div>
@@ -28,35 +28,70 @@
             </div>
             </div>
         @endif
+        @if (session()->has('error'))    
+            <div class="alert alert-danger alert-dismissible show fade">
+            <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                <span>×</span>
+                </button>
+                {{ session('error')}}
+            </div>
+            </div>
+        @endif
       </div>
     </div>
 
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="card">
-            <div class="card-header">
-             <a href="{{ route('materi.create')}}" class="btn btn-warning btn-sm"> <span data-feather="plus" style="width: 15px;"></span> Tambah Data</a>
-            </div>
             <div class="card-body">
+            <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('nilai.index') }}">
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <select name="materi" required class="form-control" id="">
+                                        <option value="">Pilih Lembar Kerja</option>
+                                        @foreach($materi as $data)
+                                        <option {{ request('materi') == $data->id ? 'selected':'' }} value="{{ $data->id }}">{{ $data->judul }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-success">Lihat Mahasiswa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table-1">
+                    <table class="table table-hover" id="table-1">
                       <thead>
                         <tr>
                           <th class="text-center" style="width:35px;" colspan="1">No</th>
-                          <th>Judul</th>
-                          <th>Status</th>
+                          <th>NIM</th>
+                          <th>Nama</th>
                           <th>Tanggal</th>
-                          <th>Action</th>
+                          <th>Status</th>
+                          <th>Pengetahuan</th>
+                          <th>Latihan</th>
                         </tr>
                       </thead>
                       <tbody>
+                        @if($jawaban != null)
+                        @foreach($jawaban as $data)
                         <tr>
-                          <td>1</td>
-                          <td>lembar</td>
-                          <td>aktif</td>
-                          <td>11-11-2022</td>
-                          <td>edit | hapus</td>
+                          <td>{{ $loop->iteration }}</td>
+                          <td>{{ $data->user->mahasiswa->nim }}</td>
+                          <td>{{ $data->user->name }} <a href="{{ route('nilaiShow', ['idUser'=>$data->user->id, 'idMateri'=>request('materi')]) }}" class="badge badge-success float-right">nilai</a></td>
+                          <td>{{ $data->created_at }}</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
                         </tr>
+                          
+                        @endforeach
+                        @endif
                       </tbody>
                     </table>
                 </div>
