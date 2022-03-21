@@ -38,9 +38,12 @@
                 <i class="far fa-user"></i> Ganti Password
               </a>
               <div class="dropdown-divider"></div>
-                <a href="{{ route('logout')}}" class="dropdown-item has-icon text-danger">
+                <a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
           </li>
         </ul>

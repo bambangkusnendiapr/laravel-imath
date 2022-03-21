@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginViewController::class, 'index'])->name('login.view');
 Route::get('/cek-role', [CekRoleController::class, 'index'])->name('cek.role');
+Route::post('/login-post', [LoginViewController::class, 'loginpost'])->name('login.post');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
