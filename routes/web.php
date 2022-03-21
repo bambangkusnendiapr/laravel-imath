@@ -34,13 +34,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LoginViewController::class, 'index'])->name('login.view');
-Route::post('/login-post', [LoginViewController::class, 'loginpost'])->name('login.post');
 Route::get('/cek-role', [CekRoleController::class, 'index'])->name('cek.role');
-Route::get('/logout', [LogoutViewController::class, 'index'])->name('logout.log');
-
-// Route::get('/register', [RegisterBaruController::class, 'index'])->name('register');
-// Route::post('/register-post', [RegisterBaruController::class, 'registerpost'])->name('register.post');
-
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
@@ -64,10 +58,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     // Ganti Password
     Route::get('/ganti-password', [DashboardController::class, 'gantiPassword'])->name('ganti.password');
     Route::post('/ganti-password', [DashboardController::class, 'simpanGantiPassword'])->name('simpan.ganti.password');
-
-    Route::resource('/kuis', KuisController::class);
-    Route::resource('/kelas', KelasController::class);
-    Route::resource('/semester', SemesterController::class);
 });
 
 
@@ -79,21 +69,9 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/lembarKerja/pengetahuan/{id}', [AppController::class, 'lembarKerjaPengetahuan'])->name('lembar.kerja.pengetahuan');
         Route::get('/lembarKerja/latihan/{id}', [AppController::class, 'lembarKerjaLatihan'])->name('lembar.kerja.latihan');
 
-        //app 1
-        Route::resource('/summary', DashboardUserController::class);
-        Route::resource('/materi-ongoing', MateriOngoingController::class);
-
-        //App pengetahuan dan jawaban
-        Route::resource('/studi-kasus', StudiKasusController::class);
         Route::post('/jawabanPengetahuan', [StudiKasusController::class, 'jawabanPengetahuan'])->name('jawaban.pengetahuan');
 
-        //app latihan dan jawaban
-        Route::resource('/latihan-ongoing', OngoingLatihanController::class);
-        Route::resource('/kuis-ongoing', OngoingKuisController::class);
-
         Route::resource('/jawaban-latihan', JawabanLatihanController::class);
-
-
     });
 });
 

@@ -33,8 +33,14 @@ class LatihanController extends Controller
      */
     public function create()
     {
+        $latihan = Latihan::all();
+        $materiId = [];
+        foreach($latihan as $data) {
+            $materiId[] = $data->materi_id;
+        }
+
         return view('admin.latihan.create',[
-            'materis' => Materi::all()
+            'materis' => Materi::whereNotIn('id', $materiId)->get()
         ]);
 
         // $u = Latihan::pluck('materi_id');
@@ -123,26 +129,11 @@ class LatihanController extends Controller
      */
     public function update(Request $request, Latihan $latihan)
     {
-        // if(array_sum($request->bobot) > 100) {
-        //     return Redirect::back()->with('error' , 'Bobot lebih dari 100');
-        // }
         
        DB::beginTransaction();
        try{
-
-        // $latihan->tgl_aktif = $request->tgl_aktif;
         $latihan->status = $request->status;
-        $latihan->save();
-
-        // SoalLatihan::where('latihan_id', $latihan->id)->delete();
-
-        // for($i = 0; $i < count($request->soal); $i++) {
-        //     SoalLatihan::create([
-        //         'latihan_id'=>$latihan->id,
-        //         'soal'=>$request->soal[$i],
-        //         'bobot'=>$request->bobot[$i],
-        //     ]); 
-        // }       
+        $latihan->save();     
 
 
         DB::commit();
@@ -200,7 +191,7 @@ class LatihanController extends Controller
             DB::commit();
             return Redirect::back()->with('success','Latihan Berhasil di Tambah');
         } catch (Exception $e) {
-            B::rollBack();
+            DB::rollBack();
             return Redirect::back()->with('error' , $e->getMessage());
         }
     }

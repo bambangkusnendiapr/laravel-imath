@@ -152,10 +152,10 @@
                 {{-- CLONE --}}
                 <div class="form-group row mb-4 control-group">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="isi[]" id="" cols="30" rows="3"></textarea>
+                        <textarea class="w-100" required name="isi[]" id="" cols="30" rows="3"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <input type="number" required class="form-control" max="100" maxlength="3" name="bobot[]" >
                         <p class="text-center">Bobot Nilai Maksimal</p>
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">

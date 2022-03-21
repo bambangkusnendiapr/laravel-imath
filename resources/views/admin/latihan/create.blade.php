@@ -74,10 +74,10 @@
                 <hr>
                 <div class="form-group row mb-4 control-group increment">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100 form-control" name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
+                        <textarea class="w-100 form-control" required name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <input type="number" required class="form-control" max="100" maxlength="3" name="bobot[]" >
                         <p class="text-center">Bobot Nilai Maksimal</p>
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">
@@ -105,10 +105,10 @@
               <div class="clone d-none">
                 <div class="form-group row mb-4 control-group">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100 form-control" name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
+                        <textarea class="w-100 form-control" required name="soal[]" id="" cols="30" rows="3" style="min-height:80px"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <input type="number" class="form-control" required max="100" maxlength="3" name="bobot[]" >
                         <p class="text-center">Bobot Nilai Maksimal</p>
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">

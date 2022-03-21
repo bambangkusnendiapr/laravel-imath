@@ -97,10 +97,10 @@
                     <div class="form-group row mb-4 control-group increment">
                         <input type="hidden" name="latihan_id" value="{{$latihan->id}}">
                         <div class="col-sm-12 col-md-8">
-                            <textarea class="w-100" name="soal" id="" cols="30" rows="3" >{{$soal->soal}}</textarea>
+                            <textarea class="w-100" required name="soal" id="" cols="30" rows="3" >{{$soal->soal}}</textarea>
                         </div>
                         <div class="col-sm-12 col-md-2">
-                            <input type="number" class="form-control" max="100" maxlength="3" name="bobot" value="{{$soal->bobot}}">
+                            <input type="number" required class="form-control" max="100" maxlength="3" name="bobot" value="{{$soal->bobot}}">
                             <p class="text-center">Bobot Nilai Maksimal</p>
                         </div>
                         <div class="col-sm-12 col-md-2 text-center">
@@ -131,10 +131,10 @@
                 {{-- CLONE --}}
                 <div class="form-group row mb-4 control-group">
                     <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="soal[]" id="" cols="30" rows="3"></textarea>
+                        <textarea class="w-100" required name="soal[]" id="" cols="30" rows="3"></textarea>
                     </div>
                     <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" >
+                        <input type="number" required class="form-control" max="100" maxlength="3" name="bobot[]" >
                         <p class="text-center">Bobot Nilai Maksimal</p>
                     </div>
                     <div class="col-sm-12 col-md-2 text-center">
