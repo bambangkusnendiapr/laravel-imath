@@ -106,7 +106,7 @@ class AppController extends Controller
 
         return view('front.lembar_kerja_latihan',[
             'latihan_id'=>$id,
-            'soals'=> SoalLatihan::all(),
+            'soals'=> SoalLatihan::where('latihan_id', $id)->get(),
             'user'=> User::where('id', Auth::user()->id)->first(),
             'materi_id' => $latihan->materi_id
         ]);

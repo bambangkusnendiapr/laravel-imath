@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jawabanlatihan;
+use App\Models\JawabanLatihan;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class JawabanLatihanController extends Controller
         try{
 
             for($i = 0; $i < count($request->soal_id); $i++) {
-                Jawabanlatihan::create([
+                JawabanLatihan::create([
                     'user_id' => Auth::user()->id,
                     'soal_latihan_id' => $request->soal_id[$i],
                     'jawaban' => $request->jawaban[$i],

@@ -114,8 +114,8 @@
           <div class="row">
               <div class="col-lg-8">
                 <div class="accordion" id="accordionExample">
-                @php $iterasi = 0; $jumlah = $soals->where('latihan_id',$latihan_id)->count(); @endphp
-                @foreach ($soals->where('latihan_id',$latihan_id) as $soal)
+                @php $iterasi = 0; $jumlah = $soals->count(); @endphp
+                @foreach ($soals as $soal)
                   @php $iterasi++; @endphp
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="heading{{ $soal->id }}">

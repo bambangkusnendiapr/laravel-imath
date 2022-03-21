@@ -37,6 +37,18 @@
       img {
           max-width: 100%;
       }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid black;
+      }
+
+      th, td, tr {
+        border: 1px solid black;
+        text-align: left;
+        padding: 8px;
+      }
   </style>
 </head>
 
@@ -191,6 +203,20 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('front/assets/js/main.js') }}"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        popover: {
+          table: [
+            ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+            ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+            ['custom', ['tableStyles']]
+          ],
+        },
+      });
+    });
+  </script>
 
 </body>
 

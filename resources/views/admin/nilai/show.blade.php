@@ -150,7 +150,7 @@
                     <p>
                       Skor Rata-rata: 
                       <strong>
-                        {{ round(($jawabanPengetahuan->sum('nilai') + $jawabanLatihan->sum('nilai')) / ($jawabanPengetahuan->count() + $jawabanLatihan->count()), 2) }}
+                        {{ round(($jawabanPengetahuan->sum('nilai') + $jawabanLatihan->sum('nilai')) / 2, 2) }}
                       </strong>
                     </p>
                   </div>
