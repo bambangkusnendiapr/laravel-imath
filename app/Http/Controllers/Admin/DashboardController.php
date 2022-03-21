@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -82,5 +87,28 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function gantiPassword()
+    {
+        return view('admin.ganti-password');
+    }
+
+    public function simpanGantiPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            User::where('id', Auth::user()->id)->update(['password' => Hash::make($request->password)]);
+            DB::commit();
+            return Redirect::back()->with('success','Password Berhasil di Ganti');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->with('error' , $e->getMessage());
+        }
     }
 }

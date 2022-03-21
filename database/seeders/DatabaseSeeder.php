@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         // $this->call(LaratrustSeeder::class);
         DB::table('users')->insert([
-            'name' => 'Mahasiswa Tiga',
-            'email' => 'mahasiswatiga@gmail.com',
-            'password' => Hash::make('password'),
+            'name' => 'Indrie Nooraini',
+            'email' => 'indrie.nooraini@staff.unsika.ac.id',
+            'password' => Hash::make('unsika'),
         ]);
     }
 }

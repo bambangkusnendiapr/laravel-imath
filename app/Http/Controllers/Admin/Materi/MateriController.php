@@ -127,22 +127,25 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        if(array_sum($request->bobot) > 100) {
-            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
-        }
+        // if(array_sum($request->bobot) > 100) {
+        //     return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        // }
         $request->validate([
             'judul' => 'required',
             'tgl_aktif' => 'required',
             'isi_materi' => 'required',
             'status' => 'required',
-            'isi' => 'required',
-            'bobot' => 'required',
         ],[
             'judul.*' => 'Judul Materi harus di Isi',
             'tgl_aktif.*' => 'Tanggal Aktif Harus di Isi',
             'isi_materi.*' => 'Isi Materi Harus di Isi',
             'status.*' => 'Status Harus di Isi',
         ]);
+
+        //hapus pengetahuan berdasarkan id
+
+        //tambahkan pengetahuan
+        //masukkan id pengetahuan ke variabel
 
         DB::beginTransaction();
         try{
@@ -157,16 +160,6 @@ class MateriController extends Controller
             ];
 
             Materi::where('id',$materi->id)->update($update_materi);
-
-            Pengetahuan::where('materi_id', $materi->id)->delete();
-
-            for($i = 0; $i<count($request->isi); $i++) {
-                Pengetahuan::create([
-                    'materi_id' => $materi->id,
-                    'isi' => $request->isi[$i],
-                    'bobot' => $request->bobot[$i],
-                ]);
-            }
 
             DB::commit();
             return Redirect::route('materi.index')->with('success','Materi Berhasil di Update');
@@ -195,6 +188,75 @@ class MateriController extends Controller
             return Redirect::route('materi.index')->with('success','Lembar Kerja Berhasil di Hapus');
         }catch(Exception $e){
             DB::rollBack();
+            return Redirect::back()->with('error' , $e->getMessage());
+        }
+    }
+
+    public function pengetahuanTambah(Request $request)
+    {
+        if(empty($request->isi)) {
+            return Redirect::back()->with('error' , 'Tidak ada data');
+        }
+
+        $materi = Materi::find($request->materi_id);
+        if(($materi->pengetahuans->sum('bobot') + array_sum($request->bobot)) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            for($i = 0; $i<count($request->isi); $i++) {
+                Pengetahuan::create([
+                    'materi_id' => $request->materi_id,
+                    'isi' => $request->isi[$i],
+                    'bobot' => $request->bobot[$i],
+                ]);
+            }
+
+            DB::commit();
+            return Redirect::back()->with('success','Lembar Pengetahuan Berhasil di Tambah');
+        } catch (Exception $e) {
+            B::rollBack();
+            return Redirect::back()->with('error' , $e->getMessage());
+        }
+    }
+
+    public function pengetahuanUpdate(Request $request, $id)
+    {
+        $materi = Materi::find($request->materi_id);
+        $pengetahuan = Pengetahuan::find($id);
+        if(($materi->pengetahuans->sum('bobot') - $pengetahuan->bobot + $request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $pengetahuan->isi = $request->isi;
+            $pengetahuan->bobot = $request->bobot;
+            $pengetahuan->save();
+
+            DB::commit();
+            return Redirect::back()->with('success','Lembar Pengetahuan Berhasil di Update');
+        } catch (Exception $e) {
+            B::rollBack();
+            return Redirect::back()->with('error' , $e->getMessage());
+        }
+    }
+
+    public function pengetahuanHapus($id)
+    {        
+        DB::beginTransaction();
+        
+        try {
+            $pengetahuan = Pengetahuan::find($id);
+            $pengetahuan->delete();
+
+            DB::commit();
+            return Redirect::back()->with('success','Lembar Pengetahuan Berhasil di Hapus');
+        } catch (Exception $e) {
+            B::rollBack();
             return Redirect::back()->with('error' , $e->getMessage());
         }
     }

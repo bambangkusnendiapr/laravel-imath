@@ -29,14 +29,28 @@ class NilaiController extends Controller
     public function index()
     {
         $jawaban = null;
+        $pengetahuan = null;
+        $soalLatihan = null;
+
+        $jawabanPengetahuan = null;
+        $jawabanLatihan = null;
+
         if(request('materi')) {
             $jawaban = Jawaban::where('materi_id', request('materi'))->where('arsip', false)->get();
+            $pengetahuan = Pengetahuan::where('materi_id', request('materi'))->get('id');
+            $latihan = Latihan::where('materi_id', request('materi'))->first();
+            $soalLatihan = SoalLatihan::where('latihan_id', $latihan->id)->get('id');
+
+            $jawabanPengetahuan = JawabanPengetahuan::whereIn('pengetahuan_id', $pengetahuan)->get();
+            $jawabanLatihan = JawabanLatihan::whereIn('soal_latihan_id', $soalLatihan)->get();
         }
 
         return view('admin.nilai.nilai', [
             'mahasiswa' => Mahasiswa::all(),
             'materi' => Materi::where('status', 'publikasi')->get(),
-            'jawaban' => $jawaban
+            'jawaban' => $jawaban,
+            'jawabanPengetahuan' => $jawabanPengetahuan,
+            'jawabanLatihan' => $jawabanLatihan
         ]);
     }
 
@@ -153,6 +167,9 @@ class NilaiController extends Controller
     {
 
         $pengetahuan = Pengetahuan::where('materi_id', $idMateri)->get('id');
+        dd($pengetahuan);
+        // $data = JawabanPengetahuan::where('user_id', $idUser)->whereIn('pengetahuan_id', $pengetahuan)->get();
+        // dd($data);
 
         $latihan = Latihan::where('materi_id', $idMateri)->first();
         $soalLatihan = SoalLatihan::where('latihan_id', $latihan->id)->get('id');

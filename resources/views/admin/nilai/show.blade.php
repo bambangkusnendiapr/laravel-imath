@@ -147,7 +147,12 @@
                     <p class="text-center">Skor Latihan: <strong>{{ $jawabanLatihan->sum('nilai') }}</strong></p>
                   </div>
                   <div class="col-4">
-                    <p>Skor Rata-rata: <strong>-</strong></p>
+                    <p>
+                      Skor Rata-rata: 
+                      <strong>
+                        {{ round(($jawabanPengetahuan->sum('nilai') + $jawabanLatihan->sum('nilai')) / ($jawabanPengetahuan->count() + $jawabanLatihan->count()), 2) }}
+                      </strong>
+                    </p>
                   </div>
                 </div>
                 <div class="row">

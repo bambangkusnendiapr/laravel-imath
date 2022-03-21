@@ -84,7 +84,7 @@
                     </form>
                     <div class="text-center mt-2">
                         Belum Memiliki Akun? <a href="{{ route('register')}}" class="text-blue"> Daftar</a><br>
-                        <a href="{{ url('/lupa_password') }}" style="color: #F7941D;">Lupa Password</a>
+                        <a href="{{ route('password.request') }}" style="color: #F7941D;">Lupa Password</a>
                     </div>
                     <div class="footer text-center mt-5">
                         <div class="d-flex flex-column">

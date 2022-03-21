@@ -131,7 +131,8 @@ class StudiKasusController extends Controller
 
             DB::commit();
 
-            return Redirect::route('materi-ongoing.show', $request->id)->with('success','Jawaban Pengetahuan Telah Disimpan');
+            return Redirect::route('lembar.kerja', $request->id)->with('success','Jawaban Pengetahuan Telah Disimpan');
+            // return Redirect::route('materi-ongoing.show', $request->id)->with('success','Jawaban Pengetahuan Telah Disimpan');
         } catch (Exception $e) {
             DB::rollBack();
             return Redirect::back()->with('error' , $e->getMessage());

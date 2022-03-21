@@ -55,18 +55,21 @@ class MateriOngoingController extends Controller
     public function show($id)
     {
         $materi = Materi::find($id);
+        $rata2 = null;
 
         $idPengetahuan = [];
         foreach($materi->pengetahuans as $data) {
             $idPengetahuan[] = $data->id;
         }
 
-        $jawabanPengetahuan = JawabanPengetahuan::whereIn('pengetahuan_id', $idPengetahuan)->where('user_id', Auth::user()->id)->where('nilai', null)->get();
-        // dd($jawabanPengetahuan);
-        if($jawabanPengetahuan) {
-            $jawabanPengetahuan = '-';
-        } else {
+        $jawabanPengetahuan = JawabanPengetahuan::whereIn('pengetahuan_id', $idPengetahuan)->where('user_id', Auth::user()->id)->where('nilai', '!=', null)->get();
+        $jawabanPengetahuanCount = null;
+        if($jawabanPengetahuan->count() > 0) {
+            $jawabanPengetahuanCount = $jawabanPengetahuan->count();
             $jawabanPengetahuan = $jawabanPengetahuan->sum('nilai');
+            $rata2 = $jawabanPengetahuan / $jawabanPengetahuanCount;
+        } else {
+            $jawabanPengetahuan = '-';
         }
 
         $latihan = Latihan::where('materi_id', $id)->first();
@@ -75,19 +78,26 @@ class MateriOngoingController extends Controller
             $idSoalLatihan[] = $data->id;
         }
 
-        $jawabanLatihan = JawabanLatihan::whereIn('soal_latihan_id', $idSoalLatihan)->where('user_id', Auth::user()->id)->where('nilai', null)->get();
-        if($jawabanLatihan) {
-            $jawabanLatihan = '-';
-        } else {
+        $jawabanLatihan = JawabanLatihan::whereIn('soal_latihan_id', $idSoalLatihan)->where('user_id', Auth::user()->id)->where('nilai', '!=', null)->get();
+        $jawabanLatihanCount = null;
+        if($jawabanLatihan->count() > 0) {
+            $jawabanLatihanCount = $jawabanLatihan->count();
             $jawabanLatihan = $jawabanLatihan->sum('nilai');
+            $rata2 = $jawabanLatihan / $jawabanLatihanCount;
+        } else {
+            $jawabanLatihan = '-';
+        }
+
+        if($jawabanPengetahuan != '-' && $jawabanLatihan != '-') {
+            $rata2 = round(($jawabanPengetahuan + $jawabanLatihan) / ($jawabanPengetahuanCount + $jawabanLatihanCount), 2);
         }
 
 
-        $jawaban = Jawaban::where('materi_id', $id)->where('user_id', Auth::user()->id)->where('tgl_jawab_latihan', null)->first();
+        $jawaban = Jawaban::where('materi_id', $id)->where('user_id', Auth::user()->id)->where('tgl_jawab_latihan', '!=', null)->first();
         if($jawaban) {
-            $jawaban = 'enabled';
-        } else {
             $jawaban = 'disabled';
+        } else {
+            $jawaban = 'enabled';
         }
 
         return view('user.ongoing.materi-ongoing',[
@@ -96,6 +106,7 @@ class MateriOngoingController extends Controller
             'jawaban' => $jawaban,
             'jawabanPengetahuan' => $jawabanPengetahuan,
             'jawabanLatihan' => $jawabanLatihan,
+            'rata2' => $rata2
         ]);
     }
 

@@ -6,6 +6,11 @@
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{ asset('admin_assets/assets/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('admin_assets/assets/summernote/dist/summernote-bs4.css') }}">
+  <style>
+    .isi {
+      min-height: 80px;
+    }
+  </style>
 @endpush
 
 <section class="section">
@@ -80,33 +85,8 @@
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
                     <div class="col-sm-12 col-md-10">
                       <textarea name="isi_materi" required class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
-                    </div>
-                    
+                    </div>                    
                 </div>
-                
-
-                <hr>
-                <h4>Lembar Pengetahuan</h4>
-                <div class="mb-3">
-                    <button class="btn btn-primary tambah" type="button">Tambah</button>
-                </div>
-                <div class="plus"></div>
-                @foreach($materi->pengetahuans as $data)
-                <div class="form-group row mb-4 control-group increment">
-                    <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="isi[]" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" value="{{$data->bobot}}">
-                        <p class="text-center">Bobot Nilai Maksimal</p>
-                    </div>
-                    <div class="col-sm-12 col-md-2 text-center">
-                        <button class="btn btn-danger hapus" type="button">Hapus</button>
-                    </div>
-                </div>
-                @endforeach
-
-                <hr>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
                     <div class="col-sm-12 col-md-10">
@@ -116,14 +96,58 @@
                       </select>
                     </div>
                 </div>
-                
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
                     <div class="col-sm-12 col-md-10">
                         <button type="submit" class="btn btn-warning btn-sm w-100">Update</button>
                     </div>
                 </div>
-              </form>
+                </form>
+
+                
+
+                <hr>
+                <h4>Lembar Pengetahuan</h4>
+                <div class="mb-3">
+                    <button class="btn btn-primary tambah" type="button">Tambah</button>
+                </div>
+                
+                @foreach($materi->pengetahuans as $data)
+                <form action="{{ route('pengetahuan.update', $data->id) }}" method="post">
+                  @csrf
+                  @method('PUT')
+                  <input type="hidden" name="materi_id" value="{{ $materi->id }}">
+                  <div class="form-group row mb-4 control-group increment">
+                      <div class="col-sm-12 col-md-8">
+                          <textarea class="w-100" required name="isi" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
+                      </div>
+                      <div class="col-sm-12 col-md-2">
+                          <input type="number" required class="form-control" max="100" maxlength="3" name="bobot" value="{{$data->bobot}}">
+                          <p class="text-center">Bobot Nilai Maksimal</p>
+                      </div>
+                      <div class="col-sm-12 col-md-2 text-center">
+                          <button class="btn btn-success" type="submit">Update</button></form>
+                          <form id="pengetahuan-form" action="{{ route('pengetahuan.hapus', $data->id) }}" method="POST">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-danger">hapus</a>
+                          </form>
+                      </div>
+                  </div>
+                
+                @endforeach
+
+                <hr>
+                <form action="{{ route('pengetahuan.tambah') }}" method="post">
+                  @csrf
+                  <input type="hidden" name="materi_id" value="{{ $materi->id }}">
+                  <div class="plus"></div>
+                  <button type="submit" class="btn btn-primary d-none" id="simpanBaru">Simpan Pengetahuan Baru</button>
+                </form>
+                
+                
+                
+              
               <div class="clone d-none">
                 {{-- CLONE --}}
                 <div class="form-group row mb-4 control-group">
@@ -144,6 +168,7 @@
           </div>
         </div>
     </div>
+
 
     
 </section>
@@ -171,6 +196,7 @@
       $(".tambah").click(function(){
           var html = $(".clone").html();
           $(".plus").after(html);
+          $( "#simpanBaru" ).removeClass( "d-none" );
       });
 
       $("body").on("click",".hapus",function(){ 

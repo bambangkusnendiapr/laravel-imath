@@ -67,31 +67,6 @@
                       </select>
                     </div>
                 </div>
-                
-
-                <h4>Soal Latihan</h4>
-                <hr>
-                <div class="mb-3">
-                    <button class="btn btn-primary" type="button">Tambah</button>
-                </div>
-                <div class="plus"></div>
-                @foreach ($soals->where('latihan_id',$latihan->id) as $soal)
-                <div class="form-group row mb-4 control-group increment">
-                    <input type="hidden" name="id[]" value="{{$soal->id}}">
-                    <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" name="soal[]" id="" cols="30" rows="3" >{{$soal->soal}}</textarea>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <input type="number" class="form-control" max="100" maxlength="3" name="bobot[]" value="{{$soal->bobot}}">
-                        <p class="text-center">Bobot Nilai Maksimal</p>
-                    </div>
-                    <div class="col-sm-12 col-md-2 text-center">
-                        <button class="btn btn-danger" type="button">Hapus</button>
-                    </div>
-                </div>
-                @endforeach
-
-                <hr>
                 <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
                     <div class="col-sm-12 col-md-10">
@@ -101,13 +76,57 @@
                       </select>
                     </div>
                 </div>
-                
                 <div class="form-group row mb-4">
                     <div class="col-sm-12 col-md-12">
-                        <button type="submit" class="btn btn-warning btn-sm w-100">Publish</button>
+                        <button type="submit" class="btn btn-warning btn-sm w-100">Simpan</button>
                     </div>
                 </div>
-              </form>
+              </form> 
+                
+
+                <h4>Soal Latihan</h4>
+                <hr>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="button">Tambah</button>
+                </div>
+                
+                @foreach ($soals->where('latihan_id',$latihan->id) as $soal)
+                  <form action="{{ route('soal.update', $soal->id) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group row mb-4 control-group increment">
+                        <input type="hidden" name="latihan_id" value="{{$latihan->id}}">
+                        <div class="col-sm-12 col-md-8">
+                            <textarea class="w-100" name="soal" id="" cols="30" rows="3" >{{$soal->soal}}</textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <input type="number" class="form-control" max="100" maxlength="3" name="bobot" value="{{$soal->bobot}}">
+                            <p class="text-center">Bobot Nilai Maksimal</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 text-center">
+                            <button type="submit" class="btn btn-success" type="button">Update</button>
+                          </form>
+                            <form id="soal-form" action="{{ route('soal.hapus', $soal->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" value="{{ $soal->id }}">
+                                <button class="btn btn-secondary" type="submit">hapus</a>
+                            </form>
+                        </div>
+                    </div>
+                  
+                @endforeach
+
+                <hr>
+                <form action="{{ route('soal.tambah') }}" method="post">
+                  @csrf
+                  <input type="hidden" name="latihan_id" value="{{ $latihan->id }}">
+                  <div class="plus"></div>     
+                  <button type="submit" class="btn btn-success d-none" id="simpanBaru">Simpan Pengetahuan Baru</button>          
+                </form>
+                
+                
+              
               <div class="clone d-none">
                 {{-- CLONE --}}
                 <div class="form-group row mb-4 control-group">
@@ -155,6 +174,7 @@
       $(".btn-primary").click(function(){ 
           var html = $(".clone").html();
           $(".plus").after(html);
+          $( "#simpanBaru" ).removeClass( "d-none" );
       });
 
       $("body").on("click",".btn-danger",function(){ 

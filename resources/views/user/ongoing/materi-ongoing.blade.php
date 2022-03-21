@@ -76,7 +76,7 @@
               </div>
             </a>
 
-            @if($jawaban == 'disabled')
+            @if($jawaban == 'disabled' || $materi->latihan->status == 'draft')
             <div class="card imath-btn-color-tidak-aktif w-100 my-2">
               <div class="card-body">
                 <div class="row text-white text-center">
@@ -150,7 +150,7 @@
                     <div class="row">
 
                       <div class="col-md-7 text-end">Nilai Rata - Rata :</div>
-                      <div class="col-md-5 text-start"></div>
+                      <div class="col-md-5 text-start">{{ $rata2 }}</div>
                     </div>
                   </div>
                 </div>

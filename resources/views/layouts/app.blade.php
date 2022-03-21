@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Lembar Kerja &mdash; Stisla</title>
+  <title>In Math</title>
 
    <!-- Favicons -->
    <link href="{{ asset('files/images/logo/icon.png') }}" rel="icon">
@@ -34,8 +34,8 @@
             <img alt="image" src="{{ asset('admin_assets/assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <a href="#" class="dropdown-item has-icon">
-                <i class="far fa-user"></i> Profile
+              <a href="{{ route('ganti.password') }}" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Ganti Password
               </a>
               <div class="dropdown-divider"></div>
                 <a href="{{ route('logout')}}" class="dropdown-item has-icon text-danger">
@@ -48,7 +48,7 @@
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="#">Lembar Kerja</a>
+            <a href="#">In Math</a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="#">CF</a>

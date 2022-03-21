@@ -85,9 +85,27 @@
                           <td>{{ $data->user->mahasiswa->nim }}</td>
                           <td>{{ $data->user->name }} <a href="{{ route('nilaiShow', ['idUser'=>$data->user->id, 'idMateri'=>request('materi')]) }}" class="badge badge-success float-right">nilai</a></td>
                           <td>{{ $data->created_at }}</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
+                          <td>
+                            @if($data->tgl_nilai_pengetahuan != null)
+                            <span class="badge badge-success">Pengetahuan Diperiksa</span>
+                            @endif
+                            @if($data->tgl_nilai_latihan != null)
+                            <span class="badge badge-success">Latihan Diperiksa</span>
+                            @endif
+                            @if($data->tgl_nilai_pengetahuan == null && $data->tgl_nilai_latihan == null)
+                              <span class="badge badge-danger">Belum Diperiksa</span>
+                            @endif
+                          </td>
+                          <td>
+                            @if(request('materi'))
+                              {{ $jawabanPengetahuan->where('user_id', $data->user->id)->sum('nilai') }}
+                            @endif
+                          </td>
+                          <td>
+                            @if(request('materi'))
+                              {{ $jawabanLatihan->where('user_id', $data->user->id)->sum('nilai') }}
+                            @endif
+                          </td>
                         </tr>
                           
                         @endforeach

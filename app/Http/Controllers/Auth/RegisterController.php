@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Mahasiswa;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -52,8 +54,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
     }
 
@@ -65,10 +68,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['nim'].'@unsika.ac.id',
             'password' => Hash::make($data['password']),
         ]);
+
+        DB::table('role_user')->insert(
+            ['user_id' => $user->id + 1, 'role_id' => 3, 'user_type' => 'App\Models\User']
+        );
+
+        Mahasiswa::create([
+            'user_id' => $user->id + 1,
+            'nim' => $data['nim'],
+            'prodi' => $data['prodi'],
+        ]);
+
+        $userDel = User::find($user->id);
+        $userDel->delete();
+
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['nim'].'@student.unsika.ac.id',
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    protected function registered()
+    {
+        $this->guard()->logout();
+        return redirect()->back()->with('success', 'Registrasi berhasil, silahkan verifikasi email anda.');
     }
 }

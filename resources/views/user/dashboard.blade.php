@@ -55,42 +55,42 @@
           <div class="col-md-12">
 
             @foreach ($materis as $materi)
-                @if(\Carbon\Carbon::now()->format('Y-m-d') < $materi->tgl_aktif)
-                    <a href="#" style="text-decoration: none;">
-                        <div class="card imath-btn-color-tidak-aktif w-100 my-2">
-                            <div class="card-body">
-                            <div class="row text-white">
-                                <div class="col-2 text-start h-100 iteration">
-                                {{$loop->iteration}} |
-                                </div>
-                                <div class="col-8 text-start text-nowrap h-100">
-                                {{$materi->judul}}
-                                </div>
-                                <div class="col-2 text-end">
-                                <i class="fa fa-lock"></i>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+                @if($materi->tgl_aktif <= \Carbon\Carbon::now()->addDays(1)->format('Y-m-d'))
+                    <a href="{{ route('materi-ongoing.show',$materi->id)}}" style="text-decoration: none;">
+                      <div class="card imath-btn-color w-100 my-2">
+                          <div class="card-body">
+                          <div class="row text-white">
+                              <div class="col-2 text-start h-100 iteration">
+                              {{$loop->iteration}} |
+                              </div>
+                              <div class="col-8 text-start text-nowrap h-100">
+                              {{$materi->judul}}
+                              </div>
+                              <div class="col-2 text-end">
+                              {{-- <i class="fa fa-lock"></i> --}}
+                              </div>
+                          </div>
+                          </div>
+                      </div>
                     </a>
                 @else
-                    <a href="{{ route('materi-ongoing.show',$materi->id)}}" style="text-decoration: none;">
-                    <div class="card imath-btn-color w-100 my-2">
-                        <div class="card-body">
-                        <div class="row text-white">
-                            <div class="col-2 text-start h-100 iteration">
-                            {{$loop->iteration}} |
-                            </div>
-                            <div class="col-8 text-start text-nowrap h-100">
-                            {{$materi->judul}}
-                            </div>
-                            <div class="col-2 text-end">
-                            {{-- <i class="fa fa-lock"></i> --}}
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </a>
+                  <a href="#" style="text-decoration: none;">
+                      <div class="card imath-btn-color-tidak-aktif w-100 my-2">
+                          <div class="card-body">
+                          <div class="row text-white">
+                              <div class="col-2 text-start h-100 iteration">
+                              {{$loop->iteration}} |
+                              </div>
+                              <div class="col-8 text-start text-nowrap h-100">
+                              {{$materi->judul}}
+                              </div>
+                              <div class="col-2 text-end">
+                              <i class="fa fa-lock"></i>
+                              </div>
+                          </div>
+                          </div>
+                      </div>
+                  </a>
                 @endif
             
             @endforeach

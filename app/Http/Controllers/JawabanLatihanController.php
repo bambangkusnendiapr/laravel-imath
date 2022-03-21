@@ -60,14 +60,15 @@ class JawabanLatihanController extends Controller
                 $jawaban->save();
             } else {
                 Jawaban::create([
-                    'materi_id' => $request->id,
+                    'materi_id' => $request->materi_id,
                     'user_id' => Auth::user()->id,
                     'tgl_jawab_latihan' => Carbon::now()->format('Y-m-d'),
                 ]);
             }
  
          DB::commit();
-         return Redirect::route('materi-ongoing.show', $request->materi_id)->with('success','Jawaban Pengetahuan Telah Disimpan');
+         return Redirect::route('lembar.kerja', $request->materi_id)->with('success','Jawaban Latihan Telah Disimpan');
+        //  return Redirect::route('materi-ongoing.show', $request->materi_id)->with('success','Jawaban Pengetahuan Telah Disimpan');
         }catch(Exception $e){
          DB::rollBack();
          return Redirect::back()->with('error' , $e->getMessage());

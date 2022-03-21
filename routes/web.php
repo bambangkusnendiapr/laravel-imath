@@ -38,8 +38,8 @@ Route::post('/login-post', [LoginViewController::class, 'loginpost'])->name('log
 Route::get('/cek-role', [CekRoleController::class, 'index'])->name('cek.role');
 Route::get('/logout', [LogoutViewController::class, 'index'])->name('logout.log');
 
-Route::get('/register', [RegisterBaruController::class, 'index'])->name('register');
-Route::post('/register-post', [RegisterBaruController::class, 'registerpost'])->name('register.post');
+// Route::get('/register', [RegisterBaruController::class, 'index'])->name('register');
+// Route::post('/register-post', [RegisterBaruController::class, 'registerpost'])->name('register.post');
 
 
 
@@ -48,10 +48,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::resource('/lembar-kerja', LembarKerjaController::class);
 
     Route::resource('/materi', MateriController::class);
+    Route::post('/pengetahuan-tambah', [MateriController::class, 'pengetahuanTambah'])->name('pengetahuan.tambah');
+    Route::put('/pengetahuan-update/{id}', [MateriController::class, 'pengetahuanUpdate'])->name('pengetahuan.update');
+    Route::delete('/pengetahuan-hapus/{id}', [MateriController::class, 'pengetahuanHapus'])->name('pengetahuan.hapus');
+
     Route::resource('/latihan', LatihanController::class);
     Route::resource('/nilai', NilaiController::class);
     Route::get('/nilai/{idUser}/{idMateri}/show', [NilaiController::class, 'nilaiShow'])->name('nilaiShow');
     Route::post('/nilai-latihan-store', [NilaiController::class, 'nilaiLatihan'])->name('nilai.latihan.store');
+
+    Route::post('/soal-tambah', [LatihanController::class, 'soalTambah'])->name('soal.tambah');
+    Route::put('/soal-update/{id}', [LatihanController::class, 'soalUpdate'])->name('soal.update');
+    Route::delete('/soal-hapus/{id}', [LatihanController::class, 'soalHapus'])->name('soal.hapus');
+
+    // Ganti Password
+    Route::get('/ganti-password', [DashboardController::class, 'gantiPassword'])->name('ganti.password');
+    Route::post('/ganti-password', [DashboardController::class, 'simpanGantiPassword'])->name('simpan.ganti.password');
 
     Route::resource('/kuis', KuisController::class);
     Route::resource('/kelas', KelasController::class);
@@ -60,24 +72,29 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
 
 
 // MAHASISWA ROUTE
-Route::group(['prefix' => 'mahasiswa', 'middleware' => ['role:mahasiswa|admin']], function() {
-    Route::get('/app', [AppController::class, 'index'])->name('app.index');
+Route::group(['middleware' => ['verified']], function() {
+    Route::group(['prefix' => 'mahasiswa', 'middleware' => ['role:mahasiswa|admin']], function() {
+        Route::get('/app', [AppController::class, 'index'])->name('app.index');
+        Route::get('/lembarKerja/{id}', [AppController::class, 'lembarKerja'])->name('lembar.kerja');
+        Route::get('/lembarKerja/pengetahuan/{id}', [AppController::class, 'lembarKerjaPengetahuan'])->name('lembar.kerja.pengetahuan');
+        Route::get('/lembarKerja/latihan/{id}', [AppController::class, 'lembarKerjaLatihan'])->name('lembar.kerja.latihan');
 
-    //app 1
-    Route::resource('/summary', DashboardUserController::class);
-    Route::resource('/materi-ongoing', MateriOngoingController::class);
+        //app 1
+        Route::resource('/summary', DashboardUserController::class);
+        Route::resource('/materi-ongoing', MateriOngoingController::class);
 
-    //App pengetahuan dan jawaban
-    Route::resource('/studi-kasus', StudiKasusController::class);
-    Route::post('/jawabanPengetahuan', [StudiKasusController::class, 'jawabanPengetahuan'])->name('jawaban.pengetahuan');
+        //App pengetahuan dan jawaban
+        Route::resource('/studi-kasus', StudiKasusController::class);
+        Route::post('/jawabanPengetahuan', [StudiKasusController::class, 'jawabanPengetahuan'])->name('jawaban.pengetahuan');
 
-    //app latihan dan jawaban
-    Route::resource('/latihan-ongoing', OngoingLatihanController::class);
-    Route::resource('/kuis-ongoing', OngoingKuisController::class);
+        //app latihan dan jawaban
+        Route::resource('/latihan-ongoing', OngoingLatihanController::class);
+        Route::resource('/kuis-ongoing', OngoingKuisController::class);
 
-    Route::resource('/jawaban-latihan', JawabanLatihanController::class);
+        Route::resource('/jawaban-latihan', JawabanLatihanController::class);
 
 
+    });
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);

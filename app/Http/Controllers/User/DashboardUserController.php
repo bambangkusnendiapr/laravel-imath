@@ -17,11 +17,11 @@ class DashboardUserController extends Controller
      */
     public function index()
     {
-        //
-        return view('user.dashboard',[
-            'materis'=> Materi::orderBy('judul','ASC')->where('status', 'publikasi')->get(),
-            'user'=> User::where('id', Auth::user()->id)->first()
-        ]);
+        return redirect()->route('app.index');
+        // return view('user.dashboard',[
+        //     'materis'=> Materi::orderBy('judul','ASC')->where('status', 'publikasi')->get(),
+        //     'user'=> User::where('id', Auth::user()->id)->first()
+        // ]);
     }
 
     /**
