@@ -8,7 +8,7 @@
         <div id="loader" class="loaded">
             <div class="loader-wrapp">
                 <div class="text-center">
-                    <img src="{{ asset('img/logo-imath.png')}}" width="170" alt="">
+                    <img src="{{ asset('img/logo-1.png')}}" width="80" alt="">
                 </div>
                 <div class="loader-footer">
                     <div class="d-flex flex-column">
