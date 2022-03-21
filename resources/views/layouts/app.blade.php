@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>In Math</title>
+  <title>I-Math</title>
 
    <!-- Favicons -->
-   <link href="{{ asset('files/images/logo/icon.png') }}" rel="icon">
-   <link href="{{ asset('files/images/logo/icon.png') }}" rel="apple-touch-icon">
+   <link href="{{ asset('img/logo.png')}}" rel="icon">
+   <link href="{{ asset('img/logo.png')}}" rel="apple-touch-icon">
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

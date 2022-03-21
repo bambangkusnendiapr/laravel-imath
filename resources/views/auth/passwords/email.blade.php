@@ -14,6 +14,7 @@
     <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
+                    <a href="{{ route('login') }}" class="btn btn-dark mb-3">Home</a>
                     <div class="card">
                         <div class="card-header">{{ __('Reset Password') }}</div>
 

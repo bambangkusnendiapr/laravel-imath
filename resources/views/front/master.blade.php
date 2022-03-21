@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>I Math | Lembar Kerja Pengetahuan</title>
+  <title>I Math | @yield('title')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -33,11 +33,6 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <style>
-      img {
-          max-width: 100%;
-      }
-  </style>
 </head>
 
 <body>
@@ -48,7 +43,7 @@
 
       <div class="row justify-content-center align-items-center">
         <div class="col-xl-11 d-flex align-items-center justify-content-between">
-          <h1 class="logo"><a href="{{ route('lembar.kerja', $materi->id) }}"><i class="bi bi-arrow-left"></i></a></h1>
+          <h1 class="logo"><a href="index.html">I-Math</a></h1>
           <!-- Uncomment below if you prefer to use an image logo -->
           <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -72,87 +67,59 @@
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
         <h2>{{ Auth::user()->name }} - {{ Auth::user()->mahasiswa->nim }}</h2>
+
       </div>
     </section><!-- End Breadcrumbs -->
 
-    <!-- ======= Blog Single Section ======= -->
+    <!-- ======= Blog Section ======= -->
     <section id="blog" class="blog">
       <div class="container" data-aos="fade-up">
-        
-        <div class="row">
-          <div class="col-8">
-            @if (session()->has('error'))    
-                <div class="alert alert-success alert-dismissible show fade">
-                <div class="alert-body">
-                    <button class="close" data-dismiss="alert">
-                    <span>×</span>
-                    </button>
-                    {{ session('error')}}
-                </div>
-                </div>
-            @endif
-          </div>
-        </div>
 
         <div class="row">
 
           <div class="col-lg-8 entries">
 
-            <article class="entry entry-single">
-
-              <h2 class="entry-title">
-                <a href="#">{{$materi->judul}}</a>
-              </h2>
-
-              <div class="entry-content">
-                {!!$materi->isi_materi!!}
-              </div>
-
-            </article><!-- End blog entry -->
+          @php $decre = $materis->count() + 1; @endphp
+          @foreach ($materis as $materi)
+            @php $decre--; @endphp
+            @if($materi->tgl_aktif <= \Carbon\Carbon::now()->addDays(1)->format('Y-m-d'))
+              <article class="entry">
+                <h2 class="entry-title">
+                  <div class="row">
+                    <div class="col-2">
+                      {{ $decre }} |
+                    </div>
+                    <div class="col-8">
+                      <a href="{{ route('lembar.kerja',$materi->id)}}">{{$materi->judul}}</a>
+                    </div>
+                  </div>
+                </h2>
+              </article><!-- End blog entry -->
+            @else
+              <article class="entry">
+                <h2 class="entry-title">
+                  <div class="row">
+                    <div class="col-2">
+                      {{ $decre }} |
+                    </div>
+                    <div class="col-8">
+                      <a href="#">{{$materi->judul}}</a>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-lock-fill"></i>
+                    </div>
+                  </div>
+                </h2>
+              </article><!-- End blog entry -->
+            @endif
+          @endforeach
 
           </div><!-- End blog entries list -->
 
         </div>
 
-        @if($jawaban == 'enabled')
-          <form action="{{ route('jawaban.pengetahuan')}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="id" value="{{$materi->id}}">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="accordion" id="accordionExample">
-                @php $iterasi = 0; $jumlah = $materi->pengetahuans->count(); @endphp
-                @foreach ($materi->pengetahuans as $data)
-                  @php $iterasi++; @endphp       
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading{{$data->id}}">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$data->id}}" aria-expanded="true" aria-controls="collapse{{$data->id}}">
-                        Pengetahuan {{ $iterasi }}
-                      </button>
-                    </h2>
-                    <div id="collapse{{$data->id}}" class="accordion-collapse collapse {{ $loop->iteration == 1 ? 'show':'' }}" aria-labelledby="heading{{$data->id}}" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        {{$data->isi}}
-                        <div class="form-group mt-3">
-                          <input type="hidden" class="form-control" name="pengetahuan[]" value="{{ $data->id }}">
-                          <textarea name="jawaban[]" class="form-control" autofocus></textarea>
-                        </div>
-                        @if($iterasi == $jumlah)
-                          <hr>
-                          <button type="submit" class="btn btn-primary w-100"><i class="bi bi-send"></i> Kirim Jawaban</button>
-                        @endif
-                      </div>
-                    </div>
-                  </div>
-                @endforeach
-                </div>
-              </div>
-            </div>
-          </form>
-        @endif
-
       </div>
-    </section><!-- End Blog Single Section -->
+    </section><!-- End Blog Section -->
 
   </main><!-- End #main -->
 

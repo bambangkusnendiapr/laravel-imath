@@ -5,13 +5,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Blog - BizPage Bootstrap Template</title>
+  <title>I Math | Lembar Kerja</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{ asset('front/assets/img/favicon.png') }}" rel="icon">
-  <link href="{{ asset('front/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('img/logo.png')}}" rel="icon">
+  <link href="{{ asset('img/logo.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
@@ -66,7 +66,7 @@
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
-        <h2>{{$materi->judul}}</h2>
+        <h2>{{ Auth::user()->name }} - {{ Auth::user()->mahasiswa->nim }}</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
@@ -93,7 +93,7 @@
 
             <article class="entry">
               <h2 class="entry-title">
-                <a href="{{ route('lembar.kerja.pengetahuan',$materi->id) }}">Lembar Kerja</a>
+                <a href="{{ route('lembar.kerja.pengetahuan',$materi->id) }}">{{$materi->judul}}</a>
               </h2>
             </article><!-- End blog entry -->
 
@@ -175,7 +175,7 @@
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong>BizPage</strong>. All Rights Reserved
+        &copy; Develop By <strong>Hilfi Developer</strong>. All Rights Reserved
       </div>
       <div class="credits">
         <!--
