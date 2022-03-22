@@ -96,7 +96,7 @@
 
         <div class="row">
 
-          <div class="col-lg-8 entries">
+          <div class="col-12 entries">
 
             <article class="entry entry-single">
               <h2 class="entry-title">
@@ -112,7 +112,7 @@
           @csrf
           <input type="hidden" name="materi_id" value="{{ $materi_id }}">
           <div class="row">
-              <div class="col-lg-8">
+              <div class="col-12">
                 <div class="accordion" id="accordionExample">
                 @php $iterasi = 0; $jumlah = $soals->count(); @endphp
                 @foreach ($soals as $soal)

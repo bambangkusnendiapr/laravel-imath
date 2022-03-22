@@ -33,6 +33,12 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+    .unlock:hover {
+      background-color: lightgreen;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -89,18 +95,20 @@
 
         <div class="row">
 
-          <div class="col-lg-8 entries">
+          <div class="col entries">
 
-            <article class="entry">
-              <h2 class="entry-title">
-                <a href="{{ route('lembar.kerja.pengetahuan',$materi->id) }}">{{$materi->judul}}</a>
-              </h2>
-            </article><!-- End blog entry -->
+            <a href="{{ route('lembar.kerja.pengetahuan',$materi->id) }}">
+              <article class="entry unlock" style="padding: 30px 30px 10px 30px; margin-bottom: 20px;">
+                <h2 class="entry-title" style="font-size: 18px; color: gray;">
+                  {{$materi->judul}}
+                </h2>
+              </article><!-- End blog entry -->
+            </a>
 
             @if($jawaban == 'disabled' || $materi->latihan->status == 'draft')
-              <article class="entry bg-secondary">
+              <article class="entry bg-secondary" style="padding: 30px 30px 10px 30px; margin-bottom: 20px;">
                 <h2 class="entry-title">
-                  <div class="row text-light">
+                  <div class="row text-light" style="font-size: 18px;">
                     <div class="col-10">
                       Latihan
                     </div>
@@ -111,11 +119,13 @@
                 </h2>
               </article><!-- End blog entry -->
             @else
-              <article class="entry">
-                <h2 class="entry-title">
-                  <a href="{{ route('lembar.kerja.latihan',$materi->latihan->id)}}">Latihan</a>
-                </h2>
-              </article><!-- End blog entry -->
+              <a href="{{ route('lembar.kerja.latihan',$materi->latihan->id)}}">
+                <article class="entry unlock" style="padding: 30px 30px 10px 30px; margin-bottom: 20px;">
+                  <h2 class="entry-title" style="font-size: 18px; color: gray;">
+                    Latihan
+                  </h2>
+                </article><!-- End blog entry -->
+              </a>
             @endif
 
 
@@ -124,7 +134,7 @@
         </div>
 
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <div class="card shadow p-3 mb-5 bg-body rounded">
               <!-- ======= Contact Section ======= -->
               <section id="contact" class="section-bg">

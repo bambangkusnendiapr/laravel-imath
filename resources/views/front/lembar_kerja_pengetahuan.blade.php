@@ -36,6 +36,7 @@
   <style>
       img {
           max-width: 100%;
+          margin: 5px;
       }
       table {
         border-collapse: collapse;
@@ -48,6 +49,11 @@
         border: 1px solid black;
         text-align: left;
         padding: 8px;
+      }
+
+      iframe {
+        max-width: 100%;
+        margin: 5px;
       }
   </style>
 </head>
@@ -131,7 +137,7 @@
             @csrf
             <input type="hidden" name="id" value="{{$materi->id}}">
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col">
                 <div class="accordion" id="accordionExample">
                 @php $iterasi = 0; $jumlah = $materi->pengetahuans->count(); @endphp
                 @foreach ($materi->pengetahuans as $data)

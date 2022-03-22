@@ -21,7 +21,7 @@ class AppController extends Controller
     public function index()
     {
         return view('front.index',[
-            'materis'=> Materi::orderBy('judul','DESC')->where('status', 'publikasi')->get(),
+            'materis'=> Materi::orderBy('created_at','DESC')->where('status', 'publikasi')->get(),
             'user'=> User::where('id', Auth::user()->id)->first()
         ]);
     }
@@ -48,6 +48,7 @@ class AppController extends Controller
 
         $latihan = Latihan::where('materi_id', $id)->first();
         $idSoalLatihan = [];
+
         foreach($latihan->soalLatihans as $data) {
             $idSoalLatihan[] = $data->id;
         }

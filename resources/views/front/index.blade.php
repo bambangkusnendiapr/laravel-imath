@@ -82,7 +82,7 @@
 
         <div class="row">
 
-          <div class="col-lg-8 entries">
+          <div class="col entries">
 
           @php $decre = $materis->count() + 1; @endphp
           @foreach ($materis as $materi)

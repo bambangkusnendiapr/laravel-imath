@@ -51,7 +51,7 @@
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="#">In Math</a>
+            <a href="#">I-Math</a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="#">CF</a>
@@ -98,7 +98,7 @@
 
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2018 <div class="bullet"></div> Develop By <a href="https://hilfideveloper.com/" target="_blank">Hilfi Developer</a>
+          Copyright &copy; 2021 <div class="bullet"></div> Develop By <a href="https://hilfideveloper.com/" target="_blank">Hilfi Developer</a>
         </div>
         <div class="footer-right">
           V. 1.0.0
