@@ -63,107 +63,141 @@
                     </div>
                 @endif
             </div>
-            <div class="card-body">
-              <form action="{{ route('materi.update',$materi->id)}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Judul</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="text" required name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul',$materi->judul)}}" placeholder="isi judul materi...">
-                    </div>
-                    
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
-                    <div class="col-sm-12 col-md-10">
-                      <input type="date" required name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif',$materi->tgl_aktif)}}">
-                    </div>
-                    
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
-                    <div class="col-sm-12 col-md-10">
-                      <textarea name="isi_materi" required class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
-                    </div>                    
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
-                    <div class="col-sm-12 col-md-10">
-                      <select name="status" class="form-control" id="" required>
-                          <option {{ $materi->status == 'draft' ? 'selected':'' }} value="draft">draft</option>
-                          <option {{ $materi->status == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
-                      </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-4">
-                    <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
-                    <div class="col-sm-12 col-md-10">
-                        <button type="submit" class="btn btn-warning btn-sm w-100">Update</button>
-                    </div>
-                </div>
-                </form>
-
-                
-
-                <hr>
-                <h4>Lembar Pengetahuan</h4>
-                <div class="mb-3">
-                    <button class="btn btn-primary tambah" type="button">Tambah</button>
-                </div>
-                
-                @foreach($materi->pengetahuans as $data)
-                <form action="{{ route('pengetahuan.update', $data->id) }}" method="post">
+            @if($materi->tgl_aktif >= \Carbon\Carbon::now()->addDays(1)->format('Y-m-d'))
+              <div class="card-body">
+                <form action="{{ route('materi.update',$materi->id)}}" method="POST" enctype="multipart/form-data">
                   @csrf
                   @method('PUT')
-                  <input type="hidden" name="materi_id" value="{{ $materi->id }}">
-                  <div class="form-group row mb-4 control-group increment">
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Judul</label>
+                      <div class="col-sm-12 col-md-10">
+                        <input type="text" required name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul',$materi->judul)}}" placeholder="isi judul materi...">
+                      </div>
+                      
+                  </div>
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
+                      <div class="col-sm-12 col-md-10">
+                        <input type="date" required name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif',$materi->tgl_aktif)}}">
+                      </div>
+                      
+                  </div>
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
+                      <div class="col-sm-12 col-md-10">
+                        <textarea name="isi_materi" required class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
+                      </div>                    
+                  </div>                
+
+                  <hr>
+                  <h4>Lembar Pengetahuan</h4>
+                  <div class="mb-3">
+                      <button class="btn btn-primary tambah" type="button">Tambah</button>
+                  </div>
+                  
+                  @foreach($materi->pengetahuans as $data)
+                    <div class="form-group row mb-4 control-group increment">
+                        <div class="col-sm-12 col-md-8">
+                            <textarea class="w-100" required name="isi[]" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <input type="number" required class="form-control bobot" max="100" maxlength="3" name="bobot[]" value="{{$data->bobot}}">
+                            <p class="text-center">Bobot Nilai Maksimal</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 text-center">
+                          <button class="btn btn-danger hapus" type="button">Hapus</button>
+                        </div>
+                    </div>
+                  
+                  @endforeach
+                  
+                  <div class="plus"></div>
+
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                      <div class="col-sm-12 col-md-10">
+                        <select name="status" class="form-control" id="" required>
+                            <option {{ $materi->status == 'draft' ? 'selected':'' }} value="draft">draft</option>
+                            <option {{ $materi->status == 'draft' ? '':'selected' }} value="publikasi">publikasi</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2"></label>
+                      <div class="col-sm-12 col-md-10">
+                          <button type="submit" class="btn btn-warning btn-sm w-100">Update</button>
+                      </div>
+                  </div>
+                  </form>
+                  
+                
+                <div class="clone d-none">
+                  {{-- CLONE --}}
+                  <div class="form-group row mb-4 control-group">
                       <div class="col-sm-12 col-md-8">
-                          <textarea class="w-100" required name="isi" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
+                          <textarea class="w-100" required name="isi[]" id="" cols="30" rows="3"></textarea>
                       </div>
                       <div class="col-sm-12 col-md-2">
-                          <input type="number" required class="form-control" max="100" maxlength="3" name="bobot" value="{{$data->bobot}}">
+                          <input type="number" required class="form-control" max="100" maxlength="3" name="bobot[]" >
                           <p class="text-center">Bobot Nilai Maksimal</p>
                       </div>
                       <div class="col-sm-12 col-md-2 text-center">
-                          <button class="btn btn-success" type="submit">Update</button></form>
-                          <form id="pengetahuan-form" action="{{ route('pengetahuan.hapus', $data->id) }}" method="POST">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-danger">hapus</a>
-                          </form>
+                          <button class="btn btn-danger hapus" type="button">Hapus</button>
                       </div>
                   </div>
-                
-                @endforeach
-
-                <hr>
-                <form action="{{ route('pengetahuan.tambah') }}" method="post">
-                  @csrf
-                  <input type="hidden" name="materi_id" value="{{ $materi->id }}">
-                  <div class="plus"></div>
-                  <button type="submit" class="btn btn-primary d-none" id="simpanBaru">Simpan Pengetahuan Baru</button>
-                </form>
-                
-                
-                
-              
-              <div class="clone d-none">
-                {{-- CLONE --}}
-                <div class="form-group row mb-4 control-group">
-                    <div class="col-sm-12 col-md-8">
-                        <textarea class="w-100" required name="isi[]" id="" cols="30" rows="3"></textarea>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <input type="number" required class="form-control" max="100" maxlength="3" name="bobot[]" >
-                        <p class="text-center">Bobot Nilai Maksimal</p>
-                    </div>
-                    <div class="col-sm-12 col-md-2 text-center">
-                        <button class="btn btn-danger hapus" type="button">Hapus</button>
-                    </div>
                 </div>
               </div>
-            </div>
+            @else
+              <div class="card-body">
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Judul</label>
+                      <div class="col-sm-12 col-md-10">
+                        <input type="text" disabled name="judul" class="form-control @error('judul') is-invalid @enderror" autofocus value="{{ old('judul',$materi->judul)}}" placeholder="isi judul materi...">
+                      </div>
+                      
+                  </div>
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Tanggal Aktif</label>
+                      <div class="col-sm-12 col-md-10">
+                        <input type="date" disabled name="tgl_aktif" class="form-control @error('tgl_aktif') is-invalid @enderror" autofocus value="{{ old('tgl_aktif',$materi->tgl_aktif)}}">
+                      </div>
+                      
+                  </div>
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Content</label>
+                      <div class="col-sm-12 col-md-10">
+                        <textarea name="isi_materi" disabled class="summernote @error('isi_materi') is-invalid @enderror" autofocus value="{{ old('isi_materi')}}">{!!$materi->isi_materi!!}</textarea>
+                      </div>                    
+                  </div>                
+
+                  <hr>
+                  <h4>Lembar Pengetahuan</h4>
+                  
+                  @foreach($materi->pengetahuans as $data)
+                    <div class="form-group row mb-4 control-group increment">
+                        <div class="col-sm-12 col-md-8">
+                            <textarea class="w-100" disabled name="isi[]" id="" cols="30" rows="3" >{{$data->isi}}</textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <input type="number" disabled class="form-control bobot" max="100" maxlength="3" name="bobot[]" value="{{$data->bobot}}">
+                            <p class="text-center">Bobot Nilai Maksimal</p>
+                        </div>
+                    </div>
+                  
+                  @endforeach
+                  
+                  <div class="plus"></div>
+
+                  <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-2 col-lg-2">Status</label>
+                      <div class="col-sm-12 col-md-10">
+                        <select name="status" class="form-control" id="" required>
+                          <option>{{ $materi->status }}</option>
+                        </select>
+                      </div>
+                  </div>
+              </div>
+            @endif
             </div>
           </div>
         </div>

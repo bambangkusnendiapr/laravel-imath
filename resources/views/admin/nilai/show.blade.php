@@ -45,6 +45,12 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="card">
+            <div class="card-header">
+              <form action="{{ route('nilai.index') }}">
+                <input type="hidden" name="materi" value="{{ $materi->id }}">
+                <button type="submit" class="btn btn-dark"><i class="fas fa-arrow-left"></i> Kembali</button>
+              </form>
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -54,7 +60,14 @@
                         <br>
                         <h5>{{ $materi->judul }}</h5>
                     </div>
-                    <div class="col-md-6">
+                    @php $url = config('app.url').'/admin/nilai/'.$user->id.'/'.$materi->id.'/show?search='; @endphp
+                    <div class="col-md-3">
+                      <a href="{{ $url }}pengetahuan" class="w-100 btn {{ request('search') == 'pengetahuan' ? 'btn-primary':'btn-secondary' }}">Pengetahuan</a>
+                    </div>
+                    <div class="col-md-3">
+                      <a href="{{ $url }}latihan" class="w-100 btn {{ request('search') == 'latihan' ? 'btn-primary':'btn-secondary' }}">Latihan</a>
+                    </div>
+                    <!-- <div class="col-md-6">
                       <form action="#">
                           <div class="form-group row">
                               <div class="col-6 offset-2">
@@ -69,7 +82,13 @@
                               </div>
                           </div>
                       </form>
-                    </div>
+                    </div> -->
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    
+                  </div>
                 </div>
 
                 <hr>
@@ -148,9 +167,9 @@
                   </div>
                   <div class="col-4">
                     <p>
-                      Skor Rata-rata: 
+                      Skor Rata-rata:
                       <strong>
-                        {{ round(($jawabanPengetahuan->sum('nilai') + $jawabanLatihan->sum('nilai')) / 2, 2) }}
+                        {{ round( ($jawabanPengetahuan->sum('nilai') * 0.3) + ($jawabanLatihan->sum('nilai') * 0.7) ,2) }}
                       </strong>
                     </p>
                   </div>

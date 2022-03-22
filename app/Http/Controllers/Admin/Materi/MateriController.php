@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Materi;
 use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\Pengetahuan;
+use App\Models\Latihan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -126,9 +127,10 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        // if(array_sum($request->bobot) > 100) {
-        //     return Redirect::back()->with('error' , 'Bobot lebih dari 100');
-        // }
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
+
         $request->validate([
             'judul' => 'required',
             'tgl_aktif' => 'required',
@@ -140,11 +142,6 @@ class MateriController extends Controller
             'isi_materi.*' => 'Isi Materi Harus di Isi',
             'status.*' => 'Status Harus di Isi',
         ]);
-
-        //hapus pengetahuan berdasarkan id
-
-        //tambahkan pengetahuan
-        //masukkan id pengetahuan ke variabel
 
         DB::beginTransaction();
         try{
@@ -158,7 +155,17 @@ class MateriController extends Controller
                 'status' => $request->status,
             ];
 
-            Materi::where('id',$materi->id)->update($update_materi);
+            Materi::where('id', $materi->id)->update($update_materi);
+
+            Pengetahuan::where('materi_id', $materi->id)->delete();
+
+            for($i = 0; $i<count($request->bobot); $i++) {
+                Pengetahuan::create([
+                    'materi_id' => $materi->id,
+                    'isi' => $request->isi[$i],
+                    'bobot' => $request->bobot[$i],
+                ]);
+            }
 
             DB::commit();
             return Redirect::route('materi.index')->with('success','Materi Berhasil di Update');
@@ -176,12 +183,13 @@ class MateriController extends Controller
      */
     public function destroy(Materi $materi)
     {
-        //
         DB::beginTransaction();
         try{
             Materi::where('id', $materi->id)->delete();
 
             Pengetahuan::where('materi_id', $materi->id)->delete();
+
+            Latihan::where('materi_id', $materi->id)->delete();
 
             DB::commit();
             return Redirect::route('materi.index')->with('success','Lembar Kerja Berhasil di Hapus');

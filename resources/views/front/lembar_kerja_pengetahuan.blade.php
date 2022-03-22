@@ -110,7 +110,7 @@
 
           <div class="col-lg-8 entries">
 
-            <article class="entry entry-single">
+            <article class="entry entry-single" style="overflow-x: auto;">
 
               <h2 class="entry-title">
                 <a href="#">{{$materi->judul}}</a>

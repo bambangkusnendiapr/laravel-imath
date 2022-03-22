@@ -167,9 +167,6 @@ class NilaiController extends Controller
     {
 
         $pengetahuan = Pengetahuan::where('materi_id', $idMateri)->get('id');
-        dd($pengetahuan);
-        // $data = JawabanPengetahuan::where('user_id', $idUser)->whereIn('pengetahuan_id', $pengetahuan)->get();
-        // dd($data);
 
         $latihan = Latihan::where('materi_id', $idMateri)->first();
         $soalLatihan = SoalLatihan::where('latihan_id', $latihan->id)->get('id');

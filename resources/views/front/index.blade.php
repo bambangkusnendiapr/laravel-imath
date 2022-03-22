@@ -33,6 +33,11 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+    .unlock:hover {
+      background-color: lightgreen;
+    }
+  </style>
 </head>
 
 <body>
@@ -83,27 +88,29 @@
           @foreach ($materis as $materi)
             @php $decre--; @endphp
             @if($materi->tgl_aktif <= \Carbon\Carbon::now()->addDays(1)->format('Y-m-d'))
-              <article class="entry">
-                <h2 class="entry-title">
-                  <div class="row">
-                    <div class="col-2">
-                      {{ $decre }} |
+            <a href="{{ route('lembar.kerja',$materi->id)}}">
+              <article class="entry unlock" style="padding: 10px 30px 10px 30px; margin-bottom: 20px;">
+                <h2 class="entry-title mt-3">
+                  <div class="row" style="font-size: 18px; color: gray;">
+                    <div class="col-1">
+                      {{ $decre }}|
                     </div>
-                    <div class="col-8">
-                      <a href="{{ route('lembar.kerja',$materi->id)}}">{{$materi->judul}}</a>
+                    <div class="col-9">
+                      {{$materi->judul}}
                     </div>
                   </div>
                 </h2>
               </article><!-- End blog entry -->
+            </a>
             @else
-              <article class="entry">
-                <h2 class="entry-title">
-                  <div class="row">
-                    <div class="col-2">
-                      {{ $decre }} |
+              <article class="entry bg-secondary" style="padding: 10px 30px 10px 30px; margin-bottom: 20px;">
+                <h2 class="entry-title mt-3">
+                  <div class="row text-light" style="font-size: 18px;">
+                    <div class="col-1">
+                      {{ $decre }}|
                     </div>
-                    <div class="col-8">
-                      <a href="#">{{$materi->judul}}</a>
+                    <div class="col-9">
+                      {{$materi->judul}}
                     </div>
                     <div class="col-2">
                       <i class="bi bi-lock-fill"></i>

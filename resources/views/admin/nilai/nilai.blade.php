@@ -46,7 +46,7 @@
           <div class="card">
             <div class="card-body">
             <div class="row">
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <form action="{{ route('nilai.index') }}">
                             <div class="form-group row">
                                 <div class="col-6">
@@ -62,6 +62,18 @@
                                 </div>
                             </div>
                         </form>
+                    </div> -->
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                          <div class="col-6">
+                              <select name="materi" required class="form-control" id="lembarKerja">
+                                  <option value="nilaiIndex">Pilih Lembar Kerja</option>
+                                  @foreach($materi as $data)
+                                  <option {{ request('materi') == $data->id ? 'selected':'' }} value="{{ $data->id }}">{{ $data->judul }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -75,10 +87,12 @@
                           <th>Status</th>
                           <th>Pengetahuan</th>
                           <th>Latihan</th>
+                          <th>Rata-rata</th>
                         </tr>
                       </thead>
                       <tbody>
                         @if($jawaban != null)
+                        @php $rata2 = 0; @endphp
                         @foreach($jawaban as $data)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
@@ -106,6 +120,13 @@
                               {{ $jawabanLatihan->where('user_id', $data->user->id)->sum('nilai') }}
                             @endif
                           </td>
+                          <td>
+                            @if(request('materi'))
+                              {{ round( ($jawabanPengetahuan->where('user_id', $data->user->id)->sum('nilai') * 0.3) + ($jawabanLatihan->where('user_id', $data->user->id)->sum('nilai') * 0.7) ,2) }}
+
+                              @php $rata2 += ($jawabanPengetahuan->where('user_id', $data->user->id)->sum('nilai') * 0.3) + ($jawabanLatihan->where('user_id', $data->user->id)->sum('nilai') * 0.7); @endphp
+                            @endif
+                          </td>
                         </tr>
                           
                         @endforeach
@@ -113,6 +134,12 @@
                       </tbody>
                     </table>
                 </div>
+                @if(request('materi'))
+                  <hr>
+                  <div class="text-right mr-5">
+                    Rata-rata Keseluruhan: <strong>{{ round($rata2 / $jawaban->count(), 2) }}</strong>
+                  </div>
+                @endif
             </div>
             </div>
           </div>
@@ -129,6 +156,19 @@
 
 <!-- Page Specific JS File -->
 <script src="{{ asset('admin_assets/assets/js/page/modules-datatables.js') }}"></script>
+<script>
+  $( "#lembarKerja" ).change(function() {
+    let result = $(this).val();
+    if(result == 'nilaiIndex') {
+      window.location.replace("{{ config('app.url') }}/admin/nilai");
+    }
+
+    if(result != 'nilaiIndex') {      
+      window.location.replace("{{ config('app.url') }}/admin/nilai?materi="+result);
+    }
+
+  });
+</script>
 
 @endpush
 @endsection

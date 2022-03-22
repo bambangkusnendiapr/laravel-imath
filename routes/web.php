@@ -36,11 +36,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginViewController::class, 'index'])->name('login.view');
 Route::get('/cek-role', [CekRoleController::class, 'index'])->name('cek.role');
 Route::post('/login-post', [LoginViewController::class, 'loginpost'])->name('login.post');
+Route::get('/logout', [LogoutViewController::class, 'index'])->name('logout.log');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::resource('/dashboard', DashboardController::class);
-    Route::resource('/lembar-kerja', LembarKerjaController::class);
 
     Route::resource('/materi', MateriController::class);
     Route::post('/pengetahuan-tambah', [MateriController::class, 'pengetahuanTambah'])->name('pengetahuan.tambah');
@@ -65,6 +65,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
 // MAHASISWA ROUTE
 Route::group(['middleware' => ['verified']], function() {
     Route::group(['prefix' => 'mahasiswa', 'middleware' => ['role:mahasiswa|admin']], function() {
+        Route::get('/summary', function() {
+            return redirect()->route('app.index');
+        })->name('summary.index');
         Route::get('/app', [AppController::class, 'index'])->name('app.index');
         Route::get('/lembarKerja/{id}', [AppController::class, 'lembarKerja'])->name('lembar.kerja');
         Route::get('/lembarKerja/pengetahuan/{id}', [AppController::class, 'lembarKerjaPengetahuan'])->name('lembar.kerja.pengetahuan');

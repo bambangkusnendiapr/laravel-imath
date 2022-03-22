@@ -41,7 +41,7 @@ class AppController extends Controller
         if($jawabanPengetahuan->count() > 0) {
             $jawabanPengetahuanCount = $jawabanPengetahuan->count();
             $jawabanPengetahuan = $jawabanPengetahuan->sum('nilai');
-            $rata2 = $jawabanPengetahuan / $jawabanPengetahuanCount;
+            $rata2 = $jawabanPengetahuan * 0.3;
         } else {
             $jawabanPengetahuan = '-';
         }
@@ -57,13 +57,13 @@ class AppController extends Controller
         if($jawabanLatihan->count() > 0) {
             $jawabanLatihanCount = $jawabanLatihan->count();
             $jawabanLatihan = $jawabanLatihan->sum('nilai');
-            $rata2 = $jawabanLatihan / $jawabanLatihanCount;
+            $rata2 = $jawabanLatihan * 0.7;
         } else {
             $jawabanLatihan = '-';
         }
 
         if($jawabanPengetahuan != '-' && $jawabanLatihan != '-') {
-            $rata2 = round(($jawabanPengetahuan + $jawabanLatihan) / ($jawabanPengetahuanCount + $jawabanLatihanCount), 2);
+            $rata2 = round(($jawabanPengetahuan * 0.3) + ($jawabanLatihan * 0.7) , 2);
         }
 
 

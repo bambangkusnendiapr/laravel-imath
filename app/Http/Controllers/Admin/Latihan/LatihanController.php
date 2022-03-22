@@ -42,11 +42,6 @@ class LatihanController extends Controller
         return view('admin.latihan.create',[
             'materis' => Materi::whereNotIn('id', $materiId)->get()
         ]);
-
-        // $u = Latihan::pluck('materi_id');
-        // return view('admin.latihan.create',[
-        //     'materis' => Materi::whereNotIn('id',$u)->get(),
-        // ]);
     }
 
     /**
@@ -129,12 +124,24 @@ class LatihanController extends Controller
      */
     public function update(Request $request, Latihan $latihan)
     {
+        if(array_sum($request->bobot) > 100) {
+            return Redirect::back()->with('error' , 'Bobot lebih dari 100');
+        }
         
        DB::beginTransaction();
        try{
         $latihan->status = $request->status;
-        $latihan->save();     
+        $latihan->save();
 
+        SoalLatihan::where('latihan_id', $request->latihan_id)->delete();
+
+        for($i = 0; $i<count($request->bobot); $i++) {
+            SoalLatihan::create([
+                'latihan_id' => $request->latihan_id,
+                'soal' => $request->soal[$i],
+                'bobot' => $request->bobot[$i],
+            ]);
+        }
 
         DB::commit();
         return Redirect::route('latihan.index')->with('success','Latihan Berhasil di Update');
